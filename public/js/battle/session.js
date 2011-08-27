@@ -43,7 +43,7 @@ define('battle/session', function() {
 		socket.on('its-kicking-off', function() {
 			bus.pub('its-kicking-off',{
 				challenge: challenge,
-				user: me	
+				user: me
 			});
 		});
 
@@ -59,7 +59,7 @@ define('battle/session', function() {
 
 		socket.emit('talking-shit', {
 			challengeId: challenge.id,
-			user: options.user
+			user: me
 		});
 
 		socket.on('game-over', function(data) {

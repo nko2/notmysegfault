@@ -8,7 +8,11 @@
 		<div id=container>
 		</div>
 		<script id="session-data" type="application/json">
-			{"user":"<%= user %>"}
+			{"user": { 
+					"id": <%= userDetails.id %>,
+					"login": "<%= userDetails.login %>",
+					"gravatar": "<%= userDetails.gravatar %>"
+			}}
 		</script>
 		<script>
 			var require = {

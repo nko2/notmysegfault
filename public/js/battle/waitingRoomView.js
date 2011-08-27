@@ -13,7 +13,7 @@ define('battle/waitingRoomView', ['text!./waitingRoomView.html'], function(tmpl)
 			this.el.children().remove();
 
 			function addUser(data) {
-				$('<li>').text(data.user).appendTo(usersEl);
+				$('<li>').text(data.user.login).appendTo(usersEl);
 			}
 
 			challenge.users.forEach(function(user) {
@@ -25,7 +25,7 @@ define('battle/waitingRoomView', ['text!./waitingRoomView.html'], function(tmpl)
 			}));
 
 			// Only allow the leader to start matches
-			if (challenge.leader !== this.options.user) {
+			if (challenge.leader.id !== this.options.user.id) {
 				content.find('.start').hide();	
 			}
 			

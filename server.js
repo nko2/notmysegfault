@@ -50,7 +50,17 @@ var battles = {},
 					req.session.user = 'User' + uid++;
 				}
 			};
-		})();
+		})(),
+		getUser = function(req) {
+			console.log('getting user');
+			var github = req.session.auth.github.user;
+
+			return {
+				id: github.id,
+				gravatar: github.gravatar_id,
+				login: github.login
+			};
+		};
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
@@ -79,7 +89,9 @@ app.get('/', function(req, res){
 app.get('/begin', function(req, res) {
 	ensureUser(req);
 
-	var battle = makeBattle(req.session.user);
+
+	var battle = makeBattle(getUser(req));
+	console.log('made battle: ' + battle.id);
 
 	res.redirect('/' + battle.id);
 });
@@ -99,8 +111,11 @@ app.get('/:id', function(req, res) {
 
 	ensureUser(req);
 
+	console.log('getting user for battle');
+	var user = getUser(req);
+
 	res.render('battle.html', {
-		user: req.session.user	
+		userDetails: user
 	});
 });
 
