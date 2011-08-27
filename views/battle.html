@@ -15,8 +15,10 @@
 				baseUrl: 'js',
 				paths: {
 					ace: 'libs/ace/ace',
+					cjs: 'libs/cjs',
 					pilot: 'libs/ace/pilot/lib/pilot',
-					text: 'libs/requirejs/text'
+					text: 'libs/requirejs/text',
+					wordCount: 'challenges/word_count'
 				}
 			};
 		</script>
@@ -27,6 +29,7 @@
 		<script src="js/libs/jquery.tmpl.js"></script>
 		<script src="socket.io/socket.io.js"></script>
 		<script src="js/libs/requirejs/require.js"></script>
+		<script src="js/libs/nodeunit.js"></script>
 		<script>
 			require(['battle/bootstrapper'], function(bootstrapper) {
 				var session = JSON.parse($('#session-data').text());

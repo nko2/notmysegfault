@@ -1,6 +1,6 @@
 define('battle/shell', 
-		['./waitingRoomView', './fightingView'], 
-		function(WaitingRoomView, FightingView) {
+		['./waitingRoomView', './fightingView', '../battle'], 
+		function(WaitingRoomView, FightingView, Battle) {
 			
 			function Shell(options) {
 				this.bus = options.bus;

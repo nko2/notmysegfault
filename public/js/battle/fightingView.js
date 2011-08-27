@@ -1,6 +1,6 @@
 define('battle/fightingView',
-				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html'], 
-	function(ace, JavaScriptMode, canon, hashHandler, tmpl) {
+				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle', 'cjs!challenges/word_count'], 
+	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle, challenge) {
 
 		var FightingView = Backbone.View.extend({
 			initialize: function() {
@@ -40,6 +40,8 @@ define('battle/fightingView',
 				}));
 				session.setMode(new JavaScriptMode.Mode());
 				session.setValue('');
+				
+				Battle.init(challenge);
 			}
 		});
 
