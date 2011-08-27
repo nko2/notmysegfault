@@ -28,6 +28,14 @@ define('battle/session', function() {
 			socket.emit('kick-off');
 		});
 
+		sub('attack', function(data) {
+			socket.emit('attack', data);
+		});
+
+		socket.on('attacked', function(data) {
+			console.log('attacked', data);
+		});
+
 		socket.on('its-kicking-off', function() {
 			bus.pub('its-kicking-off',{
 				challenge: challenge,

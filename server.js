@@ -73,10 +73,11 @@ function failSocket(socket, message) {
 }
 
 io.sockets.on('connection', function(socket) {
-	var battle;
+	var battle, user;
 
 	socket.on('talking-shit', function(data) {
 		battle = battles[data.challengeId];
+		user = data.user;
 
 		if (!battle) {
 			failSocket(socket, 'That battle doesnt exist.');
@@ -104,6 +105,13 @@ io.sockets.on('connection', function(socket) {
 	socket.on('kick-off', function() {
 		battle.sockets.forEach(function(socket) {
 			socket.emit('its-kicking-off');
+		});
+	});
+
+	socket.on('attack', function(data) {
+		data.user = user;
+		battle.sockets.forEach(function(socket) {
+			socket.emit('attacked', data);
 		});
 	});
 });

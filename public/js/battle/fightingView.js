@@ -4,7 +4,8 @@ define('battle/fightingView',
 
 		var FightingView = Backbone.View.extend({
 			initialize: function() {
-				var editor, session;
+				var bus = this.options.bus, 
+					editor, session;
 
 				$(tmpl).tmpl(this.options.challenge).appendTo(this.el);
 
@@ -13,15 +14,12 @@ define('battle/fightingView',
 				canon.addCommand({
 					name:'submit',
 					exec: function() {
-						var challenge = new FizzBuzz(),
-							js = session.getValue(),
-							results;
-						
-						challenge.setup();
-						eval(js);
-						results = run(challenge.verify);
+						var testResults = {
+							total: 10,
+							failed: 10 - Math.ceil(Math.random() * 8)
+						};
 
-						console.log(results);
+						bus.pub('attack', testResults);
 					}
 				});
 
