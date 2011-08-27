@@ -2,25 +2,27 @@ define('battle', [], function(){
 	return {
 		challenge: undefined,
 		$codeInput: undefined,
+		editorSession: undefined,
 		testTimer: undefined,
 	
 		init: function(options){
 			var challenge = options.challenge;
 			this.challenge = challenge;
+			this.editorSession = options.editorSession;
 		
 			$('#challenge-name').text(challenge.name);
 			$('#challenge-description').text(challenge.description);
 		
-			var $codeInput = $('#code-input');
+			var $codeInput = $('#workbench');
 			this.$codeInput = $codeInput;
 			$codeInput.before('<div>' + challenge.preCode + '</div');
 			$codeInput.after('<div>' + challenge.postCode + '</div>');
-			$codeInput.change( $.proxy(this.runTests, this) );
-			$codeInput.keypress( $.proxy(this.onKeypress, this) );
+			// $codeInput.change( $.proxy(this.runTests, this) );
+			// $codeInput.keypress( $.proxy(this.onKeypress, this) );
 		},
 	
 		runTests: function(callback){
-			var code = this.challenge.preCode + this.$codeInput.val() + this.challenge.postCode;
+			var code = this.challenge.preCode + this.editorSession.getValue() + this.challenge.postCode;
 			$.globalEval(code);
 		
 			nodeunit.runModule(
@@ -30,7 +32,7 @@ define('battle', [], function(){
 				function(){}
 			);
 		},
-	
+		
 		onKeypress: function(){
 			if (this.testTimer){
 				window.clearTimeout(this.testTimer);

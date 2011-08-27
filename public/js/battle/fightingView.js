@@ -4,10 +4,11 @@ define('battle/fightingView',
 
 		var FightingView = Backbone.View.extend({
 			initialize: function() {
-				var bus = this.options.bus, 
+				var bus = this.options.bus,
 					editor, session;
 
 				var fightingEl = $(tmpl).tmpl(this.options.challenge);
+				this.fightingEl = fightingEl;
 				
 				fightingEl.appendTo(this.el);
 
@@ -21,7 +22,7 @@ define('battle/fightingView',
 								total: assertions.length,
 								failed: assertions.failures()
 							};
-
+							
 							if (testResults.failed === 0) {
 								bus.pub('winning', {
 									code: session.getValue()
@@ -32,13 +33,10 @@ define('battle/fightingView',
 						});
 					}
 				});
-
-				bus.sub('attacked', function(data) {
-					var passed = data.total - data.failed;
-					
-					fightingEl.find('li[data-user-id=' + data.user.id + '] .num-tests-passing').text(data.total);
-					$('.num-tests').text(data.total);
-				});
+				
+				bus.sub('attacked', $.proxy(function(data) {
+					this.updateUser.call(this, data);
+				}, this));
 
 				editor = ace.edit(editorEl[0]);
 				session = editor.getSession();
@@ -50,11 +48,23 @@ define('battle/fightingView',
 				session.setValue('');
 				
 				Battle.init({
-					challenge: challenge
+					challenge: challenge,
+					editorSession: session
 				});
+				
+				$('#challenge-name').text(challenge.name);
+				$('#challenge-description').text(challenge.description);
 			},
+			
 			remove: function() {
 				this.el.children().remove();
+			},
+			
+			updateUser: function(testResults){
+				var numPassed = testResults.total - testResults.failed;
+				
+				this.fightingEl.find('[data-user-id=' + testResults.user.id + '] .num-tests-passing').text(numPassed);
+				$('.num-tests').text(testResults.total);
 			}
 		});
 
