@@ -2,6 +2,27 @@
 <html>
 <head>
 	<title>Test runner</title>
+	<script>
+		var require = {
+			baseUrl: 'js',
+			paths: {
+				cjs: 'libs/cjs',
+				text: 'libs/requirejs/text',
+				wordCount: 'challenges/word_count'
+			}
+		};
+	</script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="js/libs/requirejs/require.js"></script>
+	<script src="js/libs/nodeunit.js"></script>
+	<script>
+		require(['cjs!challenges/word_count'], function(wordCount){
+			console.log(wordCount);
+			nodeunit.run({
+				'Word Count': wordCount
+			});
+		});
+	</script>
 </head>
 <body>
 	<input type="text"/>
