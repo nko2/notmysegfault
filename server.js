@@ -1,6 +1,4 @@
 var express = require('express'),
-	MemoryStore = require('connect').session.MemoryStore,
-	sessionStore = new MemoryStore(),
 	app = express.createServer(),
 	io = require('socket.io').listen(app);
 
@@ -34,7 +32,6 @@ var battles = {},
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
 app.use(express.session({
-	store: sessionStore,
 	secret:"I'm a motherf***ing pirate"
 }));
 app.register('.html', require('ejs'));
