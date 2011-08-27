@@ -31,6 +31,7 @@
 					</div>
 				</div>
 				<div id=info>
+
 				</div>
 			</div>
 		</div>
@@ -44,10 +45,19 @@
 			};
 		</script>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/libs/showdown.js"></script>
 		<script src="js/libs/requirejs/require.js"></script>
 		<script>
 			var editorEl = $('#editor'),
 				aceHostEl = $('#ace-host');
+
+			function showChallenge() {
+				var markdown = '# FizzBuzz!',
+					converter = new Showdown.converter(),
+					markup = converter.makeHtml(markdown);
+
+				$('#info').html(markup);	
+			}
 
 			require(
 				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler'], 
@@ -76,6 +86,10 @@
 					}));
 					session.setMode(new JavaScriptMode.Mode());
 					session.setValue('');
+
+					$(function() {
+						showChallenge();
+					});
 				}
 			);
 		</script>
