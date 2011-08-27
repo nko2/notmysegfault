@@ -1,4 +1,7 @@
-var app = require('express').createServer();
+var express = require('express'),
+	app = express.createServer();
+
+app.use(express.static(__dirname + '/public'));
 app.register('.html', require('ejs'));
 app.set('view options', {
   layout: false
