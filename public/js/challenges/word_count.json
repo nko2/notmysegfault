@@ -1,4 +1,0 @@
-{
-	name: "Word Count",
-	description: "Return the number of words in the given string.  Words are separated by whitespace."
-}

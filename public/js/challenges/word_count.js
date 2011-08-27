@@ -1,29 +1,35 @@
-exports.emptyString = function(test){
-	test.expect(3);
-	test.equal(typeof wordCount, 'function', "wordCount() is not defined");
-	
-	var result = wordCount('');
-	test.equal(typeof result, 'number', "you must return a number");
-	test.equal(result, 0, "the result should be 0");
-	test.done();
-};
+exports.name = "Word Count";
 
-exports.singleWord = function(test){
-	test.expect(3);
-	test.equal(typeof wordCount, 'function', "wordCount() is not defined");
-	
-	var result = wordCount('foo');
-	test.equal(typeof result, 'number', "you must return a number");
-	test.equal(result.length, 1, "the result should be one");
-	test.done();
-};
+exports.description = "Return the number of words in the given string.  Words are separated by whitespace.";
 
-exports.singleWordWithSpaces = function(test){
-	test.expect(3);
-	test.equal(typeof wordCount, 'function', "wordCount() is not defined");
+exports.tests = {
+	emptyString: function(test){
+		test.expect(3);
+		test.equal(typeof wordCount, 'function', "wordCount() is not defined");
+		
+		var result = wordCount('');
+		test.equal(typeof result, 'number', "you must return a number");
+		test.equal(result, 0, "the result should be 0");
+		test.done();
+	},
 	
-	var result = wordCount(' foo ');
-	test.equal(typeof result, 'number', "you must return a number");
-	test.equal(result.length, 1, "the result should be one");
-	test.done();
+	singleWord: function(test){
+		test.expect(3);
+		test.equal(typeof wordCount, 'function', "wordCount() is not defined");
+		
+		var result = wordCount('foo');
+		test.equal(typeof result, 'number', "you must return a number");
+		test.equal(result.length, 1, "the result should be one");
+		test.done();
+	},
+	
+	singleWordWithSpaces: function(test){
+		test.expect(3);
+		test.equal(typeof wordCount, 'function', "wordCount() is not defined");
+		
+		var result = wordCount(' foo ');
+		test.equal(typeof result, 'number', "you must return a number");
+		test.equal(result.length, 1, "the result should be one");
+		test.done();
+	}
 };
