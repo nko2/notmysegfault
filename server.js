@@ -1,35 +1,42 @@
 var express = require('express'),
-	app = express.createServer();
+	MemoryStore = require('connect').session.MemoryStore,
+	sessionStore = new MemoryStore(),
+	app = express.createServer(),
+	io = require('socket.io').listen(app);
 
-var currentBattles = {},
-	makeBattle = (function() {
-		var cid = 0;
+var battles = {},
+		makeBattle = (function() {
+			var cid = 0;
 
-		return function(leader) {
-			var battle = {
-					id: cid++,
-					users: [],
-					leader: leader
-				};
-			
-			currentBattles[battle.id] = battle;
+			return function(leader) {
+				var battle = {
+						id: cid++,
+						users: [],
+						sockets: [],
+						leader: leader
+					};
+				
+				battles[battle.id] = battle;
 
-			return battle;
-		};
-	})(),
-	ensureUser = (function() {
-		var uid = 1;
+				return battle;
+			};
+		})(),
+		ensureUser = (function() {
+			var uid = 1;
 
-		return function(req) {
-			if (!req.session.user) {
-				req.session.user = 'User' + uid++;
-			}
-		};
-	})();
+			return function(req) {
+				if (!req.session.user) {
+					req.session.user = 'User' + uid++;
+				}
+			};
+		})();
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
-app.use(express.session({secret:"I'm a motherf***ing pirate"}));
+app.use(express.session({
+	store: sessionStore,
+	secret:"I'm a motherf***ing pirate"
+}));
 app.register('.html', require('ejs'));
 app.set('view options', {
 	layout: false
@@ -48,7 +55,7 @@ app.get('/begin', function(req, res) {
 });
 
 app.get('/:id', function(req, res) {
-	var battle = currentBattles[req.params.id];
+	var battle = battles[req.params.id];
 
 	if (!battle) {
 		res.send('BATTLE NO EXIST IDIOT', 404);
@@ -57,7 +64,51 @@ app.get('/:id', function(req, res) {
 
 	ensureUser(req);
 
-	res.render('battle.html');
+	res.render('battle.html', {
+		user: req.session.user	
+	});
+});
+
+function failSocket(socket, message) {
+	socket.emit('bugger-off', {
+		message: message
+	});
+}
+
+io.sockets.on('connection', function(socket) {
+	var battle;
+
+	socket.on('talking-shit', function(data) {
+		battle = battles[data.battleId];
+
+		if (!battle) {
+			failSocket(socket, 'That battle doesnt exist.');
+			return;
+		}
+
+		// Tell other people that we've got someone connected
+		battle.sockets.forEach(function(otherSocket) {
+			otherSocket.emit('starting-something', {
+				user: data.user
+			});
+		});
+
+		// Add this user to the current users collection
+		battle.users.push(data.user);
+		battle.sockets.push(socket);
+
+		// Let the user know the details of the battle
+		socket.emit('bring-it', {
+			users: battle.users,
+			leader: battle.leader
+		});
+	});
+
+	socket.on('kick-off', function() {
+		battle.sockets.forEach(function(socket) {
+			socket.emit('its-kicking-off');
+		});
+	});
 });
 
 app.listen(3000);
