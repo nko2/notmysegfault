@@ -12,7 +12,12 @@ define('battle/shell',
 			}
 
 			Shell.prototype.waiting = function(data) {
-				alert('showing waiting');	
+				var waitingRoomView = new WaitingRoomView({
+					el: this.el,
+					bus: this.bus,
+					challenge: data.challenge,
+					user: data.user
+				});
 			}
 
 			Shell.prototype.sub = function(topic, fn) {

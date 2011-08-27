@@ -14,11 +14,17 @@ define('battle/session', function() {
 			alert('UR BACKEND ERRORD: ' + data.message);
 		});
 
+		socket.on('starting-something', function(data) {
+			bus.pub('new-user', data);
+		});
+
 		socket.once('bring-it', function(data) {
+			([]).push.apply(challenge.users, data.users);
+			challenge.leader = data.leader;
+
 			bus.pub('waiting', {
-				users: data.users,
-				me: me,
-				leader: data.leader
+				challenge: challenge,
+				user: me
 			});
 		});
 
