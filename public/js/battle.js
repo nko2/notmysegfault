@@ -1,6 +1,8 @@
 var Battle = {
 	challenge: undefined,
 	$codeInput: undefined,
+	$numPassing: undefined,
+	$numTests: undefined,
 	testTimer: undefined,
 	
 	init: function(challenge){
@@ -12,6 +14,12 @@ var Battle = {
 		$codeInput.after('<div>' + challenge.postCode + '</div>');
 		$codeInput.blur( $.proxy(this.runTests, this) );
 		$codeInput.keypress( $.proxy(this.onKeypress, this) );
+		
+		this.$numPassing = $('.num-tests-passing');
+		this.$numTests = $('.num-tests');
+		
+		// get initial results
+		this.runTests();
 	},
 	
 	runTests: function(){
@@ -21,7 +29,7 @@ var Battle = {
 		nodeunit.runModule(
 			this.challenge.name,
 			this.challenge.tests,
-			{ moduleDone: this.onTestsComplete },
+			{ moduleDone: $.proxy(this.onTestsComplete, this) },
 			function(){}
 		);
 	},
@@ -34,10 +42,16 @@ var Battle = {
 	},
 	
 	onTestsComplete: function(name, assertions){
-		console.log("you have " + assertions.failures() + " failures.");
+		var numTests = assertions.length,
+			numPassed = numTests - assertions.failures();
+		
+		this.$numTests.text(numTests);
+		this.$numPassing.text(numPassed);
 	}
 };
 
 require(['cjs!challenges/word_count'], function(challenge){
-	Battle.init(challenge);
+	$(function(){
+		Battle.init(challenge);
+	});
 });
