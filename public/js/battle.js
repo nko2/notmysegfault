@@ -8,11 +8,14 @@ var Battle = {
 	init: function(challenge){
 		this.challenge = challenge;
 		
+		$('#challenge-name').text(challenge.name);
+		$('#challenge-description').text(challenge.description);
+		
 		var $codeInput = $('#code-input');
 		this.$codeInput = $codeInput;
 		$codeInput.before('<div>' + challenge.preCode + '</div');
 		$codeInput.after('<div>' + challenge.postCode + '</div>');
-		$codeInput.blur( $.proxy(this.runTests, this) );
+		$codeInput.change( $.proxy(this.runTests, this) );
 		$codeInput.keypress( $.proxy(this.onKeypress, this) );
 		
 		this.$numPassing = $('.num-tests-passing');
