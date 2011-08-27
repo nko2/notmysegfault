@@ -7,6 +7,9 @@
 	<body>
 		<div id=container>
 		</div>
+		<script id="session-data" type="application/json">
+			{"user":"<%= user %>"}
+		</script>
 		<script>
 			var require = {
 				baseUrl: 'js',
@@ -21,11 +24,15 @@
 		<script src="js/libs/underscore.js"></script>
 		<script src="js/libs/backbone.js"></script>
 		<script src="js/libs/jquery.js"></script>
+		<script src="socket.io/socket.io.js"></script>
 		<script src="js/libs/requirejs/require.js"></script>
 		<script>
 			require(['battle/bootstrapper'], function(bootstrapper) {
+				var session = JSON.parse($('#session-data').text());
+
 				bootstrapper.init({
-					el: $('#container')
+					el: $('#container'),
+					session: session
 				});
 			});
 		</script>

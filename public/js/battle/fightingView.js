@@ -1,32 +1,37 @@
-			require(
-				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler'], 
-				function(ace, JavaScriptMode, canon, hashHandler) {
-					var editor, session;
+define('battle/fightingView',
+				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html'], 
+	function(ace, JavaScriptMode, canon, hashHandler, tmpl) {
 
-					canon.addCommand({
-						name:'submit',
-						exec: function() {
-							var challenge = new FizzBuzz(),
-								js = session.getValue(),
-								results;
-							
-							challenge.setup();
-							eval(js);
-							results = run(challenge.verify);
+		var FightingView = Backbone.View.extend({
+			initialize: function() {
+				var editor, session;
 
-							console.log(results);
-						}
-					});
+				canon.addCommand({
+					name:'submit',
+					exec: function() {
+						var challenge = new FizzBuzz(),
+							js = session.getValue(),
+							results;
+						
+						challenge.setup();
+						eval(js);
+						results = run(challenge.verify);
 
-					editor = ace.edit(editorEl[0]);
-					session = editor.getSession();
+						console.log(results);
+					}
+				});
 
-					editor.setKeyboardHandler(new hashHandler.HashHandler({
-						submit: 'Ctrl-Return'
-					}));
-					session.setMode(new JavaScriptMode.Mode());
-					session.setValue('');
+				editor = ace.edit(editorEl[0]);
+				session = editor.getSession();
 
-					showChallenge();
-				}
-			);
+				editor.setKeyboardHandler(new hashHandler.HashHandler({
+					submit: 'Ctrl-Return'
+				}));
+				session.setMode(new JavaScriptMode.Mode());
+				session.setValue('');
+			}
+		});
+
+		return FightingView;
+	}
+);
