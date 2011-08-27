@@ -18,10 +18,16 @@ define('battle/fightingView',
 					exec: function() {
 						var testResults = {
 							total: 10,
-							failed: 10 - Math.ceil(Math.random() * 8)
+							failed: Math.floor(Math.random() * 11)
 						};
 
-						bus.pub('attack', testResults);
+						if (testResults.failed === 0) {
+							bus.pub('winning', {
+								code: session.getValue()
+							});
+						} else {
+							bus.pub('attack', testResults);
+						}
 					}
 				});
 
@@ -40,6 +46,9 @@ define('battle/fightingView',
 				}));
 				session.setMode(new JavaScriptMode.Mode());
 				session.setValue('');
+			},
+			remove: function() {
+				this.el.children().remove();
 			}
 		});
 

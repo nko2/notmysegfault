@@ -114,6 +114,13 @@ io.sockets.on('connection', function(socket) {
 			socket.emit('attacked', data);
 		});
 	});
+
+	socket.on('winning', function(data) {
+		data.user = user;
+		battle.sockets.forEach(function(socket) {
+			socket.emit('game-over', data);
+		});
+	});
 });
 
 app.listen(3000);
