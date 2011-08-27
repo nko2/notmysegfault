@@ -4,10 +4,15 @@ define('battle/session', function() {
 		var socket = io.connect(),
 			bus = options.bus,
 			me = options.user,
+			subs = [],
 			challenge = {
 				id: options.challengeId,
 				users: []
 			};
+
+		function sub(topic, fn) {
+			subs.push(bus.sub(topic, fn));
+		}
 
 		// Global error handler
 		socket.on('bugger-off', function(data) {
@@ -18,6 +23,14 @@ define('battle/session', function() {
 			bus.pub('new-user', data);
 		});
 
+		sub('kick-off', function() {
+			socket.emit('kick-off');
+		});
+
+		socket.on('its-kicking-off', function() {
+			console.log('ITS KICKING OFF!');
+		});
+
 		socket.once('bring-it', function(data) {
 			([]).push.apply(challenge.users, data.users);
 			challenge.leader = data.leader;
@@ -26,10 +39,6 @@ define('battle/session', function() {
 				challenge: challenge,
 				user: me
 			});
-		});
-
-		socket.once('its-kicking-off', function() {
-			alert('its-kicking-off');
 		});
 
 		socket.emit('talking-shit', {

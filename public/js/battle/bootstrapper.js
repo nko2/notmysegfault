@@ -2,8 +2,6 @@ define('battle/bootstrapper',
 		[ './bus', './session', './shell' ], 
 		function(Bus, Session, Shell) {
 
-			console.log('shell', Shell);
-
 	return {
 		init: function(options) {
 			var challengeId = window.location.pathname.slice(1),

@@ -32,6 +32,7 @@ define('battle/waitingRoomView', ['text!./waitingRoomView.html'], function(tmpl)
 			this.el.append(content);
 		},
 		start: function() {
+			this.options.bus.pub('kick-off');
 		},
 		remove: function() {
 			this.el.children().remove();
