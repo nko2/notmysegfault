@@ -51,7 +51,7 @@ define('battle/session', function() {
 			([]).push.apply(challenge.users, data.users);
 			challenge.leader = data.leader;
 
-			bus.pub('waiting', {
+			bus.pub(data.state === 'waiting' ? 'waiting' : 'its-kicking-off', {
 				challenge: challenge,
 				user: me
 			});

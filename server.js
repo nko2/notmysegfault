@@ -52,7 +52,6 @@ var battles = {},
 			};
 		})(),
 		getUser = function(req) {
-			console.log('getting user');
 			var github = req.session.auth.github.user;
 
 			return {
@@ -104,15 +103,16 @@ app.get('/:id', function(req, res) {
 		return;
 	}
 
-	if (battle.state !== 'waiting') {
+	var user = getUser(req);
+
+	var isInBattle = battle.users.filter(function(u) { 
+			return u.id === user.id; 
+		}).length > 0;
+
+	if (battle.state !== 'waiting' && !isInBattle) {
 		res.send('TOOO LATE TO JOIN THAT BATTLE SON', 404);
 		return;
 	}
-
-	ensureUser(req);
-
-	console.log('getting user for battle');
-	var user = getUser(req);
 
 	res.render('battle.html', {
 		userDetails: user
@@ -137,21 +137,28 @@ io.sockets.on('connection', function(socket) {
 			return;
 		}
 
-		// Tell other people that we've got someone connected
-		battle.sockets.forEach(function(otherSocket) {
-			otherSocket.emit('starting-something', {
-				user: data.user
-			});
+		var alreadyPlaying = battle.users.some(function(u) {
+			return u.id === user.id;
 		});
 
-		// Add this user to the current users collection
-		battle.users.push(data.user);
+		if (!alreadyPlaying) {
+			// Tell other people that we've got someone connected
+			battle.sockets.forEach(function(otherSocket) {
+				otherSocket.emit('starting-something', {
+					user: data.user
+				});
+			});
+			// Add this user to the current users collection
+			battle.users.push(data.user);
+		}
+
 		battle.sockets.push(socket);
 
 		// Let the user know the details of the battle
 		socket.emit('bring-it', {
 			users: battle.users,
-			leader: battle.leader
+			leader: battle.leader,
+			state: battle.state
 		});
 	});
 

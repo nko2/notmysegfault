@@ -23,7 +23,9 @@ define('battle/shell',
 			}
 
 			Shell.prototype.kickOff = function(data) {
-				this.currentView.remove();
+				if (this.currentView) {
+					this.currentView.remove();
+				}
 
 				var fightingView = this.currentView = new FightingView({
 					el: this.el,
@@ -34,7 +36,9 @@ define('battle/shell',
 			}
 
 			Shell.prototype.gameOver = function(data) {
-				this.currentView.remove();
+				if (this.currentView) {
+					this.currentView.remove();
+				}
 
 				var gameOverView = new GameOverView($.extend({
 					el: this.el,

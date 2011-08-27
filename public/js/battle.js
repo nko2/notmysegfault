@@ -5,7 +5,8 @@ define('battle', [], function(){
 		testTimer: undefined,
 	
 		init: function(options){
-			this.challenge = options.challenge;
+			var challenge = options.challenge;
+			this.challenge = challenge;
 		
 			$('#challenge-name').text(challenge.name);
 			$('#challenge-description').text(challenge.description);

@@ -36,7 +36,7 @@ define('battle/fightingView',
 				bus.sub('attacked', function(data) {
 					var passed = data.total - data.failed;
 					
-					fightingEl.find('[data-user=' + data.user + '] .num-tests-passing').text(passed);
+					fightingEl.find('li[data-user-id=' + data.user.id + '] .num-tests-passing').text(data.total);
 					$('.num-tests').text(data.total);
 				});
 
