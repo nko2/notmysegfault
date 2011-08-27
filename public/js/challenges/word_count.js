@@ -2,6 +2,8 @@ exports.name = "Word Count";
 
 exports.description = "Return the number of words in the given string.  Words are separated by whitespace.";
 
+exports.initialCode = "function wordCount(inputStr){\n  \n}";
+
 exports.tests = {
 	emptyString: function(test){
 		test.expect(3);
