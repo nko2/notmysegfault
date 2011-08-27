@@ -5,6 +5,7 @@ define('battle/fightingView',
 		var FightingView = Backbone.View.extend({
 			initialize: function() {
 				var bus = this.options.bus,
+					currentUser = this.options.user,
 					editor, session;
 
 				var fightingEl = $(tmpl).tmpl(this.options.challenge);
@@ -23,6 +24,8 @@ define('battle/fightingView',
 								failed: assertions.failures()
 							};
 							
+							this.updateUser.call(this, currentUser, data);
+							
 							if (testResults.failed === 0) {
 								bus.pub('winning', {
 									code: session.getValue()
@@ -35,7 +38,7 @@ define('battle/fightingView',
 				});
 				
 				bus.sub('attacked', $.proxy(function(data) {
-					this.updateUser.call(this, data);
+					this.updateUser.call(this, data.user, data);
 				}, this));
 
 				editor = ace.edit(editorEl[0]);
@@ -60,10 +63,10 @@ define('battle/fightingView',
 				this.el.children().remove();
 			},
 			
-			updateUser: function(testResults){
+			updateUser: function(user, testResults){
 				var numPassed = testResults.total - testResults.failed;
 				
-				this.fightingEl.find('[data-user-id=' + testResults.user.id + '] .num-tests-passing').text(numPassed);
+				this.fightingEl.find('[data-user-id=' + user.id + '] .num-tests-passing').text(numPassed);
 				$('.num-tests').text(testResults.total);
 			}
 		});
