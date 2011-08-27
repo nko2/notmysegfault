@@ -35,7 +35,7 @@ define('battle/fightingView',
 					var passed = data.total - data.failed,
 						text = '(' + passed + '/' + data.total + ')';
 					
-					fightingEl.find('li[data-user=' + data.user + '] .winningness').text(text);
+					fightingEl.find('li[data-user-id=' + data.user.id + '] .winningness').text(text);
 				});
 
 				editor = ace.edit(editorEl[0]);
