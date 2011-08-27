@@ -1,57 +1,57 @@
 var express = require('express'),
 	app = express.createServer();
 
-var challenges = {},
-		makeChallenge = (function() {
-			var cid = 0;
+var currentBattles = {},
+	makeBattle = (function() {
+		var cid = 0;
 
-			return function(leader) {
-				var challenge = {
-						id: cid++,
-						users: [],
-						leader: leader
-					};
-				
-				challenges[challenge.id] = challenge;
+		return function(leader) {
+			var battle = {
+					id: cid++,
+					users: [],
+					leader: leader
+				};
+			
+			currentBattles[battle.id] = battle;
 
-				return challenge;
-			};
-		})(),
-		ensureUser = (function() {
-			var uid = 1;
+			return battle;
+		};
+	})(),
+	ensureUser = (function() {
+		var uid = 1;
 
-			return function(req) {
-				if (!req.session.user) {
-					req.session.user = 'User' + uid++;
-				}
-			};
-		})();
+		return function(req) {
+			if (!req.session.user) {
+				req.session.user = 'User' + uid++;
+			}
+		};
+	})();
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
 app.use(express.session({secret:"I'm a motherf***ing pirate"}));
 app.register('.html', require('ejs'));
 app.set('view options', {
-  layout: false
+	layout: false
 });
 
 app.get('/', function(req, res){
-  res.render('tests.html');
+	res.render('tests.html');
 });
 
 app.get('/begin', function(req, res) {
 	ensureUser(req);
 
-	var challenge = makeChallenge(req.session.user);
+	var battle = makeBattle(req.session.user);
 
-	res.redirect('/' + challenge.id);
+	res.redirect('/' + battle.id);
 });
 
 app.get('/:id', function(req, res) {
-	var challenge = challenges[req.params.id];
+	var battle = currentBattles[req.params.id];
 
-	if (!challenge) {
-		res.send('CHALLENGE NO EXIST IDIOT', 404);
+	if (!battle) {
+		res.send('BATTLE NO EXIST IDIOT', 404);
 		return;
 	}
 
