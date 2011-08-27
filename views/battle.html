@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+	<head>
+		<title>BATTLE FOOLS!</title>
+		<link rel=stylesheet href="css/battle.css" />
+	</head>
+	<body>
+		<div id=container>
+			<div id=header>
+				<ul>
+					<li>
+						<img class="profile" src="https://secure.gravatar.com/avatar/95e2b8ef6039d2668114cfb20cf45ae2?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
+						<span class="name">davidpadbury</span>
+						<span class="winningness">(4/6)</span>
+					</li>
+					<li>
+						<img class="profile" src="https://secure.gravatar.com/avatar/95e2b8ef6039d2668114cfb20cf45ae2?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
+						<span class="name">davidpadbury</span>
+						<span class="winningness">(4/6)</span>
+					</li>
+					<li>
+						<img class="profile" src="https://secure.gravatar.com/avatar/95e2b8ef6039d2668114cfb20cf45ae2?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
+						<span class="name">davidpadbury</span>
+						<span class="winningness">(4/6)</span>
+					</li>
+				</ul>
+			</div>	
+			<div id=workbench>
+				<div id=editor>
+					<div id="ace-host">
+					</div>
+				</div>
+				<div id=info>
+
+				</div>
+			</div>
+		</div>
+		<script>
+			var require = {
+				baseUrl: 'js',
+				paths: {
+					ace: 'libs/ace/ace',
+					pilot: 'libs/ace/pilot/lib/pilot'
+				}
+			};
+		</script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/libs/showdown.js"></script>
+		<script src="js/libs/requirejs/require.js"></script>
+		<script>
+			function run(tests) {
+				var total = 0,
+					errors = [];
+
+				function equal(actual, expected, message) {
+					total++;
+					if (actual != expected) {
+						errors.push(message || "Expected " + expected + " but got " + actual + ".");
+					}
+				}
+
+				var assert = {
+					equal: equal
+				};
+
+				tests(assert);
+
+				return {
+					total: total,
+					errors: errors
+				};
+			}
+
+			var FizzBuzz = function() {
+				var results = [];
+
+				function setup() {
+					window.print = function(msg) {
+						results.push(msg);
+					};
+				}
+
+				function verify(assert) {
+					var actual;
+					for (var i = 1; i <= 100; i++) {
+						actual = results[i-1];
+						if (i % 3 == 0 && i % 5 == 0) {
+							assert.equal(actual, 'FizzBuzz');
+						} 
+						else if (i % 5 == 0) {
+							assert.equal(actual, 'Buzz');
+						}
+						else if (i % 3 == 0) {
+							assert.equal(actual, 'Fizz');
+						}
+						else {
+							assert.equal(actual, i);
+						}
+					}
+				}
+
+				return {
+					setup: setup,
+					verify: verify
+				};
+			};
+
+		</script>
+		<script>
+			var editorEl = $('#editor'),
+				aceHostEl = $('#ace-host');
+
+			function showChallenge() {
+				var markdown = '# FizzBuzz!',
+					converter = new Showdown.converter(),
+					markup = converter.makeHtml(markdown);
+
+				$('#info').html(markup);	
+			}
+
+			require(
+				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler'], 
+				function(ace, JavaScriptMode, canon, hashHandler) {
+					var editor, session;
+
+					canon.addCommand({
+						name:'submit',
+						exec: function() {
+							var challenge = new FizzBuzz(),
+								js = session.getValue(),
+								results;
+							
+							challenge.setup();
+							eval(js);
+							results = run(challenge.verify);
+
+							console.log(results);
+						}
+					});
+
+					editor = ace.edit(editorEl[0]);
+					session = editor.getSession();
+
+					editor.setKeyboardHandler(new hashHandler.HashHandler({
+						submit: 'Ctrl-Return'
+					}));
+					session.setMode(new JavaScriptMode.Mode());
+					session.setValue('');
+
+					showChallenge();
+				}
+			);
+		</script>
+	</body>
+</html>
