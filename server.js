@@ -79,7 +79,7 @@ io.sockets.on('connection', function(socket) {
 	var battle;
 
 	socket.on('talking-shit', function(data) {
-		battle = battles[data.battleId];
+		battle = battles[data.challengeId];
 
 		if (!battle) {
 			failSocket(socket, 'That battle doesnt exist.');
