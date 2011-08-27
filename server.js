@@ -3,18 +3,17 @@ var express = require('express'),
 	app = express.createServer(),
 	io = require('socket.io').listen(app);
 
-if ( ! process.env.GITHUB_SECRET ) {
-	throw new Error("I need a GITHUB_SECRET environment variable.");
-}
-if ( ! process.env.SESSION_SECRET ) {
-	throw new Error("I need a GITHUB_SECRET environment variable.");
-}
+['GITHUB_ID', 'GITHUB_SECRET', 'SESSION_SECRET'].forEach(function(name){
+	if ( ! process.env[name] ) {
+		throw new Error("I need a " + name + " environment variable.");
+	}
+});
 
 everyauth.everymodule.moduleErrback(function (err) {
 	console.log('authentication error: ' + err);
 });
 everyauth.github
-	.appId('975c82195d2da3957a07')
+	.appId(process.env.GITHUB_ID)
 	.appSecret(process.env.GITHUB_SECRET)
 	.handleAuthCallbackError(function(req, res){
 		res.end('bad');
