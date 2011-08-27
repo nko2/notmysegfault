@@ -7,12 +7,14 @@ var Battle = {
 		
 		var $codeInput = $('#code-input');
 		this.$codeInput = $codeInput;
-		$codeInput.val(challenge.initialCode);
+		$codeInput.before('<div>' + challenge.preCode + '</div');
+		$codeInput.after('<div>' + challenge.postCode + '</div>');
 		$codeInput.blur( $.proxy(this.runTests, this) );
 	},
 	
 	runTests: function(){
-		$.globalEval(this.$codeInput.val());
+		var code = this.challenge.preCode + this.$codeInput.val() + this.challenge.postCode;
+		$.globalEval(code);
 		
 		nodeunit.runModule(
 			this.challenge.name,
