@@ -15,17 +15,10 @@
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script src="js/libs/requirejs/require.js"></script>
 	<script src="js/libs/nodeunit.js"></script>
-	<script>
-		require(['cjs!challenges/word_count'], function(wordCount){
-			nodeunit.runModule('Word Count', wordCount.tests, {
-				moduleDone: function(name, assertions){
-					console.log(assertions);
-				}
-			}, function(){});
-		});
-	</script>
+	<script src="js/battle.js"></script>
 </head>
 <body>
-	<input type="text"/>
+	<textarea id="code-input" rows="20" cols="80">
+	</textarea>
 </body>
 </html>
