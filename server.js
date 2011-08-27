@@ -1,6 +1,22 @@
 var express = require('express'),
+	everyauth = require('everyauth'),
 	app = express.createServer(),
-	io = require('socket.io').listen(app);
+	io = require('socket.io').listen(app),
+	secrets = require('./secrets');
+
+everyauth.everymodule.moduleErrback(function (err) {
+	console.log('authentication error: ' + err);
+});
+everyauth.github
+	.appId('975c82195d2da3957a07')
+	.appSecret(secrets.github)
+	.handleAuthCallbackError(function(req, res){
+		res.end('bad');
+	})
+	.findOrCreateUser( function (session, accessToken, accessTokenExtra, githubUserMetadata) {
+		return { token: accessToken, meta: githubUserMetadata };
+	})
+	.redirectPath('/');
 
 var battles = {},
 		makeBattle = (function() {
@@ -33,8 +49,10 @@ var battles = {},
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
 app.use(express.session({
-	secret:"I'm a motherf***ing pirate"
+	secret: secrets.session
 }));
+app.use(everyauth.middleware());
+everyauth.helpExpress(app);
 app.register('.html', require('ejs'));
 app.set('view options', {
 	layout: false
