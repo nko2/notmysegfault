@@ -1,6 +1,7 @@
 var Battle = {
 	challenge: undefined,
 	$codeInput: undefined,
+	testTimer: undefined,
 	
 	init: function(challenge){
 		this.challenge = challenge;
@@ -10,6 +11,7 @@ var Battle = {
 		$codeInput.before('<div>' + challenge.preCode + '</div');
 		$codeInput.after('<div>' + challenge.postCode + '</div>');
 		$codeInput.blur( $.proxy(this.runTests, this) );
+		$codeInput.keypress( $.proxy(this.onKeypress, this) );
 	},
 	
 	runTests: function(){
@@ -24,11 +26,18 @@ var Battle = {
 		);
 	},
 	
+	onKeypress: function(){
+		if (this.testTimer){
+			window.clearTimeout(this.testTimer);
+		}
+		this.testTimer = window.setTimeout( $.proxy(this.runTests, this), 3000);
+	},
+	
 	onTestsComplete: function(name, assertions){
 		console.log("you have " + assertions.failures() + " failures.");
 	}
 };
 
-require(['cjs!challenges/word_count'], function(wordCount){
-	Battle.init(wordCount);
+require(['cjs!challenges/word_count'], function(challenge){
+	Battle.init(challenge);
 });
