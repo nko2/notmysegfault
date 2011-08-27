@@ -16,26 +16,28 @@ define('battle/fightingView',
 				canon.addCommand({
 					name:'submit',
 					exec: function() {
-						var testResults = {
-							total: 10,
-							failed: Math.floor(Math.random() * 11)
-						};
+						Battle.runTests(function(name, assertions){
+							var testResults = {
+								total: assertions.length,
+								failed: assertions.failures()
+							};
 
-						if (testResults.failed === 0) {
-							bus.pub('winning', {
-								code: session.getValue()
-							});
-						} else {
-							bus.pub('attack', testResults);
-						}
+							if (testResults.failed === 0) {
+								bus.pub('winning', {
+									code: session.getValue()
+								});
+							} else {
+								bus.pub('attack', testResults);
+							}
+						});
 					}
 				});
 
 				bus.sub('attacked', function(data) {
-					var passed = data.total - data.failed,
-						text = '(' + passed + '/' + data.total + ')';
+					var passed = data.total - data.failed;
 					
-					fightingEl.find('li[data-user=' + data.user + '] .winningness').text(text);
+					fightingEl.find('[data-user=' + data.user + '] .num-tests-passing').text(passed);
+					$('.num-tests').text(data.total);
 				});
 
 				editor = ace.edit(editorEl[0]);
@@ -47,7 +49,9 @@ define('battle/fightingView',
 				session.setMode(new JavaScriptMode.Mode());
 				session.setValue('');
 				
-				Battle.init(challenge);
+				Battle.init({
+					challenge: challenge
+				});
 			},
 			remove: function() {
 				this.el.children().remove();
