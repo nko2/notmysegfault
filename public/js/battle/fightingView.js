@@ -4,7 +4,8 @@ define('battle/fightingView',
 
 		var FightingView = Backbone.View.extend({
 			initialize: function() {
-				var bus = this.options.bus,
+				var self = this,
+					bus = this.options.bus,
 					currentUser = this.options.user,
 					editor, session;
 
@@ -24,7 +25,7 @@ define('battle/fightingView',
 								failed: assertions.failures()
 							};
 							
-							this.updateUser.call(this, currentUser, data);
+							self.updateUser.call(self, currentUser, testResults);
 							
 							if (testResults.failed === 0) {
 								bus.pub('winning', {
@@ -43,7 +44,8 @@ define('battle/fightingView',
 
 				editor = ace.edit(editorEl[0]);
 				session = editor.getSession();
-
+				
+				editor.setShowPrintMargin(false);
 				editor.setKeyboardHandler(new hashHandler.HashHandler({
 					submit: 'Ctrl-Return'
 				}));

@@ -33,6 +33,10 @@
 	top: 0; bottom: 0;
 }
 
+#workbench #editor #ace-host .ace_gutter {
+	visibility: hidden;
+}
+
 #workbench #info {
 	-webkit-box-flex: 1;
 }
