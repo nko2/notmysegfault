@@ -1,20 +1,13 @@
+<div>
 <div id=header>
 	<ul>
+		{{each users}}
 		<li>
 			<img class="profile" src="https://secure.gravatar.com/avatar/95e2b8ef6039d2668114cfb20cf45ae2?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
-			<span class="name">davidpadbury</span>
+			<span class="name">${$value}</span>
 			<span class="winningness">(4/6)</span>
 		</li>
-		<li>
-			<img class="profile" src="https://secure.gravatar.com/avatar/95e2b8ef6039d2668114cfb20cf45ae2?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
-			<span class="name">davidpadbury</span>
-			<span class="winningness">(4/6)</span>
-		</li>
-		<li>
-			<img class="profile" src="https://secure.gravatar.com/avatar/95e2b8ef6039d2668114cfb20cf45ae2?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
-			<span class="name">davidpadbury</span>
-			<span class="winningness">(4/6)</span>
-		</li>
+		{{/each}}
 	</ul>
 </div>	
 <div id=workbench>
@@ -25,4 +18,5 @@
 	<div id=info>
 
 	</div>
+</div>
 </div>

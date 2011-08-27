@@ -20,6 +20,7 @@ define('battle/session', function() {
 		});
 
 		socket.on('starting-something', function(data) {
+			challenge.users.push(data.user);
 			bus.pub('new-user', data);
 		});
 
@@ -28,7 +29,10 @@ define('battle/session', function() {
 		});
 
 		socket.on('its-kicking-off', function() {
-			console.log('ITS KICKING OFF!');
+			bus.pub('its-kicking-off',{
+				challenge: challenge,
+				user: me	
+			});
 		});
 
 		socket.once('bring-it', function(data) {

@@ -9,10 +9,22 @@ define('battle/shell',
 				this.subs = [];
 				
 				this.bus.sub('waiting', this.waiting.bind(this));
+				this.bus.sub('its-kicking-off', this.kickOff.bind(this));
 			}
 
 			Shell.prototype.waiting = function(data) {
-				var waitingRoomView = new WaitingRoomView({
+				var waitingRoomView = this.currentView = new WaitingRoomView({
+					el: this.el,
+					bus: this.bus,
+					challenge: data.challenge,
+					user: data.user
+				});
+			}
+
+			Shell.prototype.kickOff = function(data) {
+				this.currentView.remove();
+
+				var fightingView = this.currentView = new FightingView({
 					el: this.el,
 					bus: this.bus,
 					challenge: data.challenge,

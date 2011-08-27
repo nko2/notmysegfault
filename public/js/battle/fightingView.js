@@ -6,6 +6,10 @@ define('battle/fightingView',
 			initialize: function() {
 				var editor, session;
 
+				$(tmpl).tmpl(this.options.challenge).appendTo(this.el);
+
+				editorEl = $('#ace-host');
+
 				canon.addCommand({
 					name:'submit',
 					exec: function() {
