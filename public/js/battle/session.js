@@ -33,7 +33,7 @@ define('battle/session', function() {
 		});
 
 		socket.on('attacked', function(data) {
-			console.log('attacked', data);
+			bus.pub('attacked', data);
 		});
 
 		socket.on('its-kicking-off', function() {

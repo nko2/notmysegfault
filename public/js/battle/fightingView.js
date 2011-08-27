@@ -7,7 +7,9 @@ define('battle/fightingView',
 				var bus = this.options.bus, 
 					editor, session;
 
-				$(tmpl).tmpl(this.options.challenge).appendTo(this.el);
+				var fightingEl = $(tmpl).tmpl(this.options.challenge);
+				
+				fightingEl.appendTo(this.el);
 
 				editorEl = $('#ace-host');
 
@@ -21,6 +23,13 @@ define('battle/fightingView',
 
 						bus.pub('attack', testResults);
 					}
+				});
+
+				bus.sub('attacked', function(data) {
+					var passed = data.total - data.failed,
+						text = '(' + passed + '/' + data.total + ')';
+					
+					fightingEl.find('li[data-user=' + data.user + '] .winningness').text(text);
 				});
 
 				editor = ace.edit(editorEl[0]);
