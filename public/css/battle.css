@@ -1,0 +1,38 @@
+#header ul li {	
+	display: inline;
+}
+
+#header ul li img.profile {
+	width: 20px;
+	height: 20px;
+}
+
+#container {
+	position: absolute;
+	left: 0; right: 0;
+	top: 0; bottom: 0;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+#workbench {
+	-webkit-box-flex: 1;
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+}
+
+#workbench #editor {
+	-webkit-box-flex: 4;
+	position: relative;
+}
+
+#workbench #editor #ace-host {
+	position: absolute;
+	height: 100%;
+	left: 0; right: 0;
+	top: 0; bottom: 0;
+}
+
+#workbench #info {
+	-webkit-box-flex: 1;
+}
