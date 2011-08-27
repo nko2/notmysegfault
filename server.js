@@ -63,9 +63,17 @@ app.register('.html', require('ejs'));
 app.set('view options', {
 	layout: false
 });
+app.dynamicHelpers({
+	req: function(req, res){
+		return req;
+	},
+	user: function(req, res){
+		return req.session && req.session.auth && req.session.auth.github
+	}
+});
 
 app.get('/', function(req, res){
-	res.render('tests.html');
+	res.render('index.html');
 });
 
 app.get('/begin', function(req, res) {
