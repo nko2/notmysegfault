@@ -11,7 +11,8 @@ var battles = {},
 						id: cid++,
 						users: [],
 						sockets: [],
-						leader: leader
+						leader: leader,
+						state: 'waiting'
 					};
 				
 				battles[battle.id] = battle;
@@ -59,6 +60,11 @@ app.get('/:id', function(req, res) {
 		return;
 	}
 
+	if (battle.state !== 'waiting') {
+		res.send('TOOO LATE TO JOIN THAT BATTLE SON', 404);
+		return;
+	}
+
 	ensureUser(req);
 
 	res.render('battle.html', {
@@ -103,6 +109,7 @@ io.sockets.on('connection', function(socket) {
 	});
 
 	socket.on('kick-off', function() {
+		battle.state = 'fighting';
 		battle.sockets.forEach(function(socket) {
 			socket.emit('its-kicking-off');
 		});
