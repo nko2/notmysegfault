@@ -1,0 +1,12 @@
+{
+    "name": "jsninjabattle",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "2.4.6",
+		"ejs": ">= 0.4.3",
+		"mongodb": ">= 0.9.0",
+		"connect-mongo": ">= 0.1.5",
+		"socket.io": ">= 0.7.9",
+		"nodeunit": ">= 0.5.4"
+	}
+}
