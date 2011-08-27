@@ -1,15 +1,21 @@
 var express = require('express'),
 	everyauth = require('everyauth'),
 	app = express.createServer(),
-	io = require('socket.io').listen(app),
-	secrets = require('./secrets');
+	io = require('socket.io').listen(app);
+
+if ( ! process.env.GITHUB_SECRET ) {
+	throw new Error("I need a GITHUB_SECRET environment variable.");
+}
+if ( ! process.env.SESSION_SECRET ) {
+	throw new Error("I need a GITHUB_SECRET environment variable.");
+}
 
 everyauth.everymodule.moduleErrback(function (err) {
 	console.log('authentication error: ' + err);
 });
 everyauth.github
 	.appId('975c82195d2da3957a07')
-	.appSecret(secrets.github)
+	.appSecret(process.env.GITHUB_SECRET)
 	.handleAuthCallbackError(function(req, res){
 		res.end('bad');
 	})
@@ -49,7 +55,7 @@ var battles = {},
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
 app.use(express.session({
-	secret: secrets.session
+	secret: process.env.SESSION_SECRET
 }));
 app.use(everyauth.middleware());
 everyauth.helpExpress(app);
