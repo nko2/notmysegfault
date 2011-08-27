@@ -30,6 +30,9 @@ define('battle/waitingRoomView',
 				if (challenge.leader.id !== this.options.user.id) {
 					content.find('.start').hide();	
 				}
+
+				// Set the location so they can share
+				content.find('.url').val(window.location.toString());
 				
 				this.el.append(content);
 			},
