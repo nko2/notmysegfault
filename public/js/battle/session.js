@@ -32,6 +32,10 @@ define('battle/session', function() {
 			socket.emit('attack', data);
 		});
 
+		sub('winning', function(data) {
+			socket.emit('winning', data);
+		});
+
 		socket.on('attacked', function(data) {
 			bus.pub('attacked', data);
 		});
@@ -56,6 +60,10 @@ define('battle/session', function() {
 		socket.emit('talking-shit', {
 			challengeId: challenge.id,
 			user: options.user
+		});
+
+		socket.on('game-over', function(data) {
+			bus.pub('game-over', data);
 		});
 	}
 
