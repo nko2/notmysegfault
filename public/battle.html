@@ -48,6 +48,65 @@
 		<script src="js/libs/showdown.js"></script>
 		<script src="js/libs/requirejs/require.js"></script>
 		<script>
+			function run(tests) {
+				var total = 0,
+					errors = [];
+
+				function equal(actual, expected, message) {
+					total++;
+					if (actual != expected) {
+						errors.push(message || "Expected " + expected + " but got " + actual + ".");
+					}
+				}
+
+				var assert = {
+					equal: equal
+				};
+
+				tests(assert);
+
+				return {
+					total: total,
+					errors: errors
+				};
+			}
+
+			var FizzBuzz = function() {
+				var results = [];
+
+				function setup() {
+					window.print = function(msg) {
+						results.push(msg);
+					};
+				}
+
+				function verify(assert) {
+					var actual;
+					for (var i = 1; i <= 100; i++) {
+						actual = results[i-1];
+						if (i % 3 == 0 && i % 5 == 0) {
+							assert.equal(actual, 'FizzBuzz');
+						} 
+						else if (i % 5 == 0) {
+							assert.equal(actual, 'Buzz');
+						}
+						else if (i % 3 == 0) {
+							assert.equal(actual, 'Fizz');
+						}
+						else {
+							assert.equal(actual, i);
+						}
+					}
+				}
+
+				return {
+					setup: setup,
+					verify: verify
+				};
+			};
+
+		</script>
+		<script>
 			var editorEl = $('#editor'),
 				aceHostEl = $('#ace-host');
 
@@ -67,14 +126,15 @@
 					canon.addCommand({
 						name:'submit',
 						exec: function() {
-							var js = session.getValue();
+							var challenge = new FizzBuzz(),
+								js = session.getValue(),
+								results;
+							
+							challenge.setup();
+							eval(js);
+							results = run(challenge.verify);
 
-							try {
-								eval(js);
-							} 
-							catch (err) {
-								alert(err);
-							}
+							console.log(results);
 						}
 					});
 
@@ -87,9 +147,7 @@
 					session.setMode(new JavaScriptMode.Mode());
 					session.setValue('');
 
-					$(function() {
-						showChallenge();
-					});
+					showChallenge();
 				}
 			);
 		</script>
