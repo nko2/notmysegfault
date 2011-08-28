@@ -31,7 +31,7 @@ define('battle', [], function(){
 				setup = challenge.setup,
 				preCode = setup.preCode || '',
 				postCode = setup.postCode || '',
-				code = preCode + this.editorSession.getValue() + postCode,
+				code = preCode + '\n' +  this.editorSession.getValue() + '\n' + postCode,
 				results = {
 					total: 0,
 					failures: []	

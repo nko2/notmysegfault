@@ -1,6 +1,6 @@
 define('battle/fightingView',
-				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle'], 
-	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle) {
+				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle', 'ace/theme/idle_fingers'], 
+	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle, idleFingersTheme) {
 
 		var FightingView = Backbone.View.extend({
 			bus: undefined,
@@ -58,7 +58,9 @@ define('battle/fightingView',
 					submit: 'Ctrl-Return'
 				}));
 				session.setMode(new JavaScriptMode.Mode());
+				editor.setTheme(idleFingersTheme);
 				session.setValue(initialValue);
+				editor.setFontSize('14px');
 				
 				Battle.init({
 					challenge: challenge,
