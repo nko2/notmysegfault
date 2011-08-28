@@ -92,48 +92,36 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5/backbone-min.js"></script>
 	<script src="/js/libs/jquery.tmpl.js"></script>
 	<script>
-		// BoundListView is copypasta from another project -Sidney
-		var BoundListView = Backbone.View.extend({
-				initialize: function(options){
-					if ('view' in options) {
-						this.view = options.view;
-					}
-					this.views = {};
-
-					this.collection.bind('add', _.bind(this.add, this));
-					this.collection.bind('remove', _.bind(this.remove, this));
-					this.collection.bind('reset', _.bind(this.refresh, this));
-
-					this.refresh();
-				},
-				add: function(model){
-					var index = this.collection.indexOf(model),
-						newView = (this.views[model.cid] = new this.view({ model: model })).el,
-						followingView;
-					if (index === this.collection.length - 1 || ! (followingView = this.views[this.collection.models[index + 1].cid])) {
-						$(this.el).prepend(newView);
-					} else {
-						this.el.insertBefore(newView, this.views[this.collection.models[index + 1].cid].el);
-					}
-				},
-				refresh: function(){
-					_.each(this.views, function(view){
-						this.remove(view.model);
+			battles = new (Backbone.Collection.extend({
+				initialize: function(){
+					this.bind('change', function(){
+						this.sort();
 					}, this);
-					this.collection.each(_.bind(this.add, this));
 				},
-				remove: function(model){
-					var view = this.views[model.cid];
-					view.destroy();
-					this.el.removeChild(view.el);
-					delete this.views[model.cid];
+				sortedIndex: function(candidate, comparator){
+					var i = 0;
+					while (i < this.models.length && comparator(this.models[i], candidate) <= 0) {
+						i++;
+					}
+					return i;
+				},
+				sortBy: function(comparator){
+					return this.models.sort(comparator);
+				},
+				comparator: function(a, b){
+					if (a.get('state') === 'fighting') {
+						return 1;
+					} else if (b.get('state') === 'fighting'){
+						return -1;
+					} else {
+						return b.id - a.id;
+					}
 				}
-			}),
-			battles = new Backbone.Collection([]),
-			battleListView = new (BoundListView.extend({
+			}))([]),
+			battleListView = new (Backbone.View.extend({
 				view: Backbone.View.extend({
 					tagName: 'li',
-					template: $.template('<a{{if state === "waiting"}} href="/${id}"{{/if}}>${id}: <ul class="userList inlineList">{{each users}}<li>${$value.login}</li>{{/each}}</ul>{{if state === \'fighting\'}} (battling now){{/if}}</a>'),
+					template: $.template('<a{{if state === "waiting"}} href="/${id}"{{/if}}><ul class="userList inlineList">{{each users}}<li>${$value.login}</li>{{/each}}</ul>{{if state === \'fighting\'}} (battling now){{/if}}</a>'),
 					initialize: function(){
 						this.el.className = 'battle';
 						this.render();
@@ -144,9 +132,20 @@
 					},
 					destroy: function(){
 						$(this.el).remove();
-					}
+					},
 				}),
-				el: document.getElementById('openbattles')
+				el: document.getElementById('openbattles'),
+				initialize: function(){
+					this.collection.bind('all', this.render, this);
+					this.render();
+				},
+				render: function(){
+					var $el = $(this.el), $footer = $el.children('.footer:first');
+					$el.children(':not(.footer)').remove();
+					this.collection.each(function(model){
+						$((new this.view({ model: model })).el).insertAfter($footer);
+					}, this);
+				}
 			}))({ collection: battles });
 		io.connect('/lobby')
 			.on('refresh', function(newBattles){
