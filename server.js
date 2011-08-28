@@ -157,6 +157,29 @@ function failSocket(socket, message) {
 io.of('/battle').on('connection', function(socket) {
 	var battle, user;
 
+	socket.on('disconnect', function() {
+		var userIndex, socketIndex;
+
+		if (!battle) return;
+
+		userIndex = battle.users.indexOf(user);
+		socketIndex = battle.sockets.indexOf(socket);
+
+		if (userIndex >= 0) {
+			battle.users.splice(userIndex, 1);
+		}
+
+		if (socketIndex >= 0) {
+			battle.sockets.splice(socketIndex, 1);
+		}
+
+		if (battle.sockets.length === 0) {
+			// Remove the battle
+			lobby.destroy(battle);
+			delete battles[battle.id];
+		}
+	});
+
 	socket.on('talking-shit', function(data) {
 		battle = battles[data.challengeId];
 		user = data.user;
