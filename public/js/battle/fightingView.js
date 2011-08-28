@@ -73,7 +73,7 @@ define('battle/fightingView',
 				this.el.find('#info').html(markup);
 				
 				// run tests after the user is idle
-				$editor.keypress( $.proxy(this.onKeypress, this) );
+				session.on('change', _.debounce($.proxy(this.runTests, this), 500));
 			},
 			
 			remove: function() {
@@ -81,7 +81,9 @@ define('battle/fightingView',
 			},
 			
 			runTests: function(){
+									try{
 				Battle.runTests( $.proxy(this.onTestsComplete, this) );
+									} catch (e) {}
 			},
 			
 			onTestsComplete: function(results){
@@ -109,13 +111,6 @@ define('battle/fightingView',
 						failures: results.failures
 					});
 				}
-			},
-			
-			onKeypress: function(){
-				if (this.testTimer){
-					window.clearTimeout(this.testTimer);
-				}
-				this.testTimer = window.setTimeout( $.proxy(this.runTests, this), 3000);
 			},
 			
 			updateUser: function(user, testResults){
