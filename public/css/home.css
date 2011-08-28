@@ -36,6 +36,12 @@ h2{
 	padding-right: 30px;
 }
 
+#vote-button {
+	width: 120px;
+	height: 25px;
+	border: none;
+}
+
 #openbattles{
 	border: 1px solid #CCC;
 	background: #F3F3F3;
