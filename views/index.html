@@ -25,19 +25,24 @@
 		<% } %>
 	</div>
 	<h1>JS Ninja Battle!</h1>
-	<div id="info">
-		<p>
-			<b>JS Ninja Battle</b> is the arena to showcase and hone your Javascript skillz through various coding challenges.  Lay the smackdown on strangers, humiliate your friends, and annihilate your enemies - create or join a game to the right!
-		</p>
-		<p>
-			Created by Sam Epstein, Aidan Feldman, Sidney San Martin and David Padbury for Node Knockout #2.
-		</p>
+	<div id="main">
+		<div id="info">
+			<p>
+				<b>JS Ninja Battle</b> is the arena to showcase and hone your Javascript skillz through various coding challenges - compete against friends, enemies or strangers in real-time.
+			</p>
+			<p>
+				<b>Lay the smackdown</b> on some devs - create or join a game to the right!
+			</p>
+		</div>
+		<div id="battles">
+			<h2>Join a battle</h2>
+			<ul id="openbattles">
+				<li class="footer"><span id="nothingDoing">No active battles. </span><a href="/begin">Start your own</a>!</li>
+			</ul>
+		</div>
 	</div>
-	<div id="battles">
-		<h2>Join a battle</h2>
-		<ul id="openbattles">
-			<li class="footer"><span id="nothingDoing">No active battles. </span><a href="/begin">Start your own</a>!</li>
-		</ul>
+	<div id="footer">
+		Created by <a href="https://twitter.com/omni5cience" target="_blank">Sam Epstein</a>, <a href="http://aidanfeldman.com" target="_blank">Aidan Feldman</a>, <a href="http://twitter.com/sidnicious" target="_blank">Sidney San Martin</a> and <a href="http://davidpadbury.com/" target="_blank">David Padbury</a> for <a href="http://nodeknockout.com/" target="_blank">Node Knockout</a> #2.
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
 	<script src="/socket.io/socket.io.js"></script>

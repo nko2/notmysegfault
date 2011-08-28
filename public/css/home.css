@@ -17,6 +17,25 @@ h2{
 	margin-bottom: 0.8em;
 	font-size: 1.1em;
 }
+
+#main {
+	display: box;
+	display: -moz-box;
+	display: -webkit-box;
+	
+	box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+}
+
+#main #info {
+	box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	
+	padding-right: 30px;
+}
+
 #openbattles{
 	border: 1px solid #CCC;
 	background: #F3F3F3;
@@ -71,4 +90,11 @@ ul.userList>li img {
 	margin: 5px;
 	border: solid 2px white;
 	padding: 2px;
+}
+
+#footer {
+	margin-top: 50px;
+	
+	font-size: 0.8em;
+	text-align: center;
 }
