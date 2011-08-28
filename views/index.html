@@ -44,6 +44,10 @@
 		#openbattles>li.battle>a:not([href]){
 			color: #999;
 		}
+		#openbattles>li.battle>a:not([href]) .in-progress{
+			font-weight: bold;
+			text-align: center;
+		}
 		#openbattles>li.battle:not(:last-child)>a, #openbattles>li.footer:not(:last-child){
 			border-bottom: 1px solid #CCC;
 		}
@@ -62,9 +66,6 @@
 		ul.inlineList>li{
 			display: inline;
 		}
-		ul.inlineList>li:nth-last-child(n+2)::after{
-			content: ', ';
-		}
 		ul.userList>li:first-child{
 			font-weight: bold;
 		}
@@ -79,6 +80,18 @@
 	</style>
 </head>
 <body>
+	<script id="battle-tmpl" type="text/x-jquery-tmpl">
+		<a {{if state.trim()==="waiting"}} href="/${id}"{{/if}}>
+			<div class="in-progress">{{if state === 'fighting'}}Battle In Progress{{/if}}</div>
+			<ul class="userList inlineList">
+			{{each users}}
+				<li>
+					<img class="profile" width="64" height="64" src="https://secure.gravatar.com/avatar/${$value.gravatar}?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" alt="${$value.login}" />
+				</li>
+			{{/each}}
+			</ul>
+		</a>
+	</script>
 	<div id="user">
 		<% if(user) { %>
 		Hey there, <%= user.login %>! (<a href="/logout">Log out</a>)
