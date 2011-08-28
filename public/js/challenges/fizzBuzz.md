@@ -1,6 +1,6 @@
 # FizzBuzz
 
-Call the `print` function with the numbers 1 through to 100 with the following exceptions.
+Call the `printValue` function with the numbers 1 through to 100 with the following exceptions.
 
 1. For multiples of 3 print `"Fizz"` instead of the number.
 2. For multiples of 5 print `"Buzz"` instead of the number.

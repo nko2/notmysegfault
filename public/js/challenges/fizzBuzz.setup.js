@@ -1,12 +1,12 @@
 exports.setup = function() {
 	var results = [];
 
-	function print(msg) {
+	function printValue(msg) {
 		results.push(msg);
 	}
 
 	// Make print function global
-	window.print = print;
+	window.printValue = printValue;
 
 	return {
 		results: results
@@ -14,5 +14,5 @@ exports.setup = function() {
 };
 
 exports.initialValue = function() {
-	return "// Example: print('FizzBuzz')";
+	return "// Example: printValue('FizzBuzz')";
 };
