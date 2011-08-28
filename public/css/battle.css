@@ -4,6 +4,10 @@ pre {
 	font-family: 'Monaco', 'Menlo', 'Droid Sans Mono', 'Courier New', monospace;
 }
 
+#header {
+	border-bottom: 1px solid gray;
+}
+
 #header ul li {	
 	display: inline;
 }
@@ -28,6 +32,8 @@ body {
 }
 
 #main {
+	padding: 30px 0;
+	
 	box-flex: 1;
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
