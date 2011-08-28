@@ -3,6 +3,11 @@ var express = require('express'),
 	app = express.createServer(),
 	io = require('socket.io').listen(app);
 
+if (process.env.NODE_ENV === 'production' && !process.env.NKO_TEAM_SECRET){
+	throw "Please set NKO_TEAM_SECRET.";
+}
+require('nko')(process.env.NKO_TEAM_SECRET);
+
 ['GITHUB_ID', 'GITHUB_SECRET', 'SESSION_SECRET'].forEach(function(name){
 	if ( ! process.env[name] ) {
 		throw new Error("I need a " + name + " environment variable.");
