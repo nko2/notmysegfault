@@ -1,3 +1,8 @@
+pre {
+	margin-left: 20px;
+	font-family: Monaco, serif;
+}
+
 #header ul li {	
 	display: inline;
 }
@@ -39,4 +44,5 @@
 
 #workbench #info {
 	-webkit-box-flex: 1;
+	padding: 0 20px;
 }

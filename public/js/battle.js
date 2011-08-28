@@ -15,8 +15,8 @@ define('battle', [], function(){
 		
 			var $codeInput = $('#workbench');
 			this.$codeInput = $codeInput;
-			$codeInput.before('<div>' + challenge.preCode + '</div');
-			$codeInput.after('<div>' + challenge.postCode + '</div>');
+			$codeInput.before('<pre>' + challenge.preCode + '</pre');
+			$codeInput.after('<pre>' + challenge.postCode + '</pre>');
 			// $codeInput.change( $.proxy(this.runTests, this) );
 			// $codeInput.keypress( $.proxy(this.onKeypress, this) );
 		},
