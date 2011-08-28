@@ -19,20 +19,22 @@ define('battle/fightingView',
 				canon.addCommand({
 					name:'submit',
 					exec: function() {
-						Battle.runTests(function(name, assertions){
-							var testResults = {
-								total: assertions.length,
-								failed: assertions.failures()
-							};
+						Battle.runTests(function(results){
+							results.failures.forEach(function(failure) {
+								console.log(failure.name, ': ', failure.message);
+							});
+
+							self.updateUser.call(self, currentUser, results);
 							
-							self.updateUser.call(self, currentUser, testResults);
-							
-							if (testResults.failed === 0) {
+							if (results.failures.length === 0) {
 								bus.pub('winning', {
 									code: session.getValue()
 								});
 							} else {
-								bus.pub('attack', testResults);
+								bus.pub('attack', {
+									total: results.total,
+									failed: results.failures.length
+								});
 							}
 						});
 					}

@@ -1,4 +1,24 @@
 define('battle', [], function(){
+
+	function decameltize(identifier) {
+    var words = '', ch;
+    
+    for (var i = 0; i < identifier.length; i++) {
+        ch = identifier.charAt(i);
+        
+        if (i === 0) {
+            words += ch.toUpperCase();
+        } else if (ch.toUpperCase() === ch) {
+            words += ' ' + ch.toLowerCase();
+        } else {
+            words += ch;
+        }
+    }
+    
+    return words;
+	}
+
+
 	return {
 		challenge: undefined,
 		$codeInput: undefined,
@@ -22,14 +42,36 @@ define('battle', [], function(){
 		},
 	
 		runTests: function(callback){
-			var code = this.challenge.preCode + this.editorSession.getValue() + this.challenge.postCode;
+			var code = this.challenge.preCode + this.editorSession.getValue() + this.challenge.postCode,
+				results = {
+					total: 0,
+					failures: []	
+				};
+
 			$.globalEval(code);
 		
 			nodeunit.runModule(
 				this.challenge.name,
 				this.challenge.tests,
-				{ moduleDone: $.proxy(callback, this) },
-				function(){}
+				{ 
+					testDone: function(names, assertions) {
+						// I don't know why names is an array
+						var name = decameltize(names[0]),
+							failures = assertions.filter(function(a) {
+								return a.failed();
+							});
+
+						results.total = results.total + 1;
+						
+						if (failures.length) {
+							results.failures.push({
+								name: name,
+								message: failures[0].message
+							});
+						}
+					}
+				},
+				function(){callback(results);}
 			);
 		},
 		

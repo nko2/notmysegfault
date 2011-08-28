@@ -6,33 +6,21 @@ exports.preCode = "function wordCount(inputStr){";
 exports.postCode = "}";
 
 exports.tests = {
-	emptyString: function(test){
-		test.expect(3);
-		test.equal(typeof wordCount, 'function', "wordCount() is not defined");
-		
+	whenCalledWithAnEmptyString: function(test){
 		var result = wordCount('');
-		test.equal(typeof result, 'number', "you must return a number");
-		test.equal(result, 0, "the result should be 0");
+		test.equal(result, 0, "Expected an empty string to return 0.");
 		test.done();
 	},
 	
-	singleWord: function(test){
-		test.expect(3);
-		test.equal(typeof wordCount, 'function', "wordCount() is not defined");
-		
+	whenCalledWithASingleWord: function(test){
 		var result = wordCount('foo');
-		test.equal(typeof result, 'number', "you must return a number");
-		test.equal(result.length, 1, "the result should be one");
+		test.equal(result, 1, 'Expected "foo" to return 1.');
 		test.done();
 	},
 	
-	singleWordWithSpaces: function(test){
-		test.expect(3);
-		test.equal(typeof wordCount, 'function', "wordCount() is not defined");
-		
+	whenCalledWithAWordWithSpaces: function(test){
 		var result = wordCount(' foo ');
-		test.equal(typeof result, 'number', "you must return a number");
-		test.equal(result.length, 1, "the result should be one");
+		test.equal(result, 1, 'Expected "  foo  " to return 1.');
 		test.done();
 	}
 };
