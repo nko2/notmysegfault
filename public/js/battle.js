@@ -14,7 +14,7 @@ define('battle', [], function(){
 			this.challenge = challenge;
 			this.editorSession = options.editorSession;
 		
-			var $codeInput = $('#workbench');
+			var $codeInput = $('#editor');
 			this.$codeInput = $codeInput;
 
 			if (preCode) {
