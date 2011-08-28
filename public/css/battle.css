@@ -27,13 +27,14 @@ pre {
 }
 
 #workbench #editor {
-	-webkit-box-flex: 4;
 	position: relative;
+	-webkit-box-flex: 1;
 }
 
 #workbench #editor #ace-host {
 	position: absolute;
 	height: 100%;
+	width: 100%;
 	left: 0; right: 0;
 	top: 0; bottom: 0;
 }
@@ -43,6 +44,6 @@ pre {
 }
 
 #workbench #info {
-	-webkit-box-flex: 1;
 	padding: 0 20px;
+	width: 20%;
 }
