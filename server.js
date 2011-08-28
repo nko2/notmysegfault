@@ -19,7 +19,9 @@ everyauth.github
 		res.end('bad');
 	})
 	.findOrCreateUser( function (session, accessToken, accessTokenExtra, githubUserMetadata) {
-		return { token: accessToken, meta: githubUserMetadata };
+		// everyauth doesn't appear to do anything with the result of this function.
+		// https://github.com/bnoguchi/everyauth/issues/60
+		return {};
 	})
 	.redirectPath('/');
 
@@ -40,25 +42,16 @@ var battles = {},
 
 				return battle;
 			};
-		})(),
-		ensureUser = (function() {
-			var uid = 1;
-
-			return function(req) {
-				if (!req.session.user) {
-					req.session.user = 'User' + uid++;
-				}
-			};
-		})(),
-		getUser = function(req) {
-			var github = req.session.auth.github.user;
-
-			return {
-				id: github.id,
-				gravatar: github.gravatar_id,
-				login: github.login
-			};
-		};
+		})();
+function ensureUser(req, res, next) {
+	if (req.user) {
+		next();
+	} else {
+		req.session.returnTo = req.url;
+		res.redirect('/auth/github');
+		return;
+	}
+}
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
@@ -66,6 +59,18 @@ app.use(express.session({
 	secret: process.env.SESSION_SECRET
 }));
 app.use(everyauth.middleware());
+// Make user info more accessible
+app.use(function(req, res, next){
+	var user;
+	if (user = req.session && req.session.auth && req.session.auth.github && req.session.auth.github.user){
+		req.user = {
+			id: user.id,
+			login: user.login,
+			gravatar: user.gravatar_id,
+		};
+	}
+	next();
+});
 everyauth.helpExpress(app);
 app.register('.html', require('ejs'));
 app.set('view options', {
@@ -76,25 +81,29 @@ app.dynamicHelpers({
 		return req;
 	},
 	user: function(req, res){
-		return req.session && req.session.auth && req.session.auth.github
+		return req.user;
 	}
 });
 
 app.get('/', function(req, res){
+	if (req.session && req.session.returnTo) {
+		var returnTo = req.session.returnTo;
+		delete req.session.returnTo;
+		res.redirect(returnTo);
+		return;
+	}
 	res.render('index.html');
 });
 
-app.get('/begin', function(req, res) {
-	ensureUser(req);
+app.get('/begin', ensureUser, function(req, res) {
 
-
-	var battle = makeBattle(getUser(req));
+	var battle = makeBattle(req.user);
 	console.log('made battle: ' + battle.id);
 
 	res.redirect('/' + battle.id);
 });
 
-app.get('/:id', function(req, res) {
+app.get('/:id', ensureUser, function(req, res) {
 	var battle = battles[req.params.id];
 
 	if (!battle) {
@@ -102,10 +111,8 @@ app.get('/:id', function(req, res) {
 		return;
 	}
 
-	var user = getUser(req);
-
 	var isInBattle = battle.users.filter(function(u) { 
-			return u.id === user.id; 
+			return u.id === req.user.id;
 		}).length > 0;
 
 	if (battle.state !== 'waiting' && !isInBattle) {
@@ -113,9 +120,7 @@ app.get('/:id', function(req, res) {
 		return;
 	}
 
-	res.render('battle.html', {
-		userDetails: user
-	});
+	res.render('battle.html');
 });
 
 function failSocket(socket, message) {

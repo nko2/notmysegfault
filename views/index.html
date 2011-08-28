@@ -6,7 +6,7 @@
 <body>
 	<h1>JS Ninja Battle</h1>
 	<% if(user) { %>
-	Welcome, <%= user.user.login %>! (<a href="/logout">Log out</a>)
+	Welcome, <%= user.login %>! (<a href="/logout">Log out</a>)
 	<% } else { %>
 	<a href="/auth/github">Log in with GitHub</a>
 	<% } %>

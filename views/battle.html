@@ -8,11 +8,11 @@
 		<div id=container>
 		</div>
 		<script id="session-data" type="application/json">
-			{"user": { 
-					"id": <%= userDetails.id %>,
-					"login": "<%= userDetails.login %>",
-					"gravatar": "<%= userDetails.gravatar %>"
-			}}
+			<%- JSON.stringify({"user": {
+				"id": user.id,
+				"login": user.login,
+				"gravatar": user.gravatar
+			}}).replace(/<\//g, '<\\/>') %>
 		</script>
 		<script>
 			var require = {
