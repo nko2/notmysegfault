@@ -20,3 +20,8 @@ a:visited {
 a {
 	color: #476DAE;
 }
+#vote-button {
+	width: 120px;
+	height: 25px;
+	border: none;
+}
