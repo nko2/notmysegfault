@@ -1,0 +1,22 @@
+@import url(http://fonts.googleapis.com/css?family=Gentium+Book+Basic);
+@import url(http://fonts.googleapis.com/css?family=Voltaire);
+
+body{
+	font: 18px 'Voltaire', sans-serif;
+	margin: 0;
+	padding: 2em;
+	background-color: #333;
+	color: #BBB;
+	min-width: 45em;
+}
+a:hover {
+	color: #47AAAE;
+	text-decoration: underline;
+}
+a:visited {
+	color: #8547AE;
+	text-decoration: underline;
+}
+a {
+	color: #476DAE;
+}
