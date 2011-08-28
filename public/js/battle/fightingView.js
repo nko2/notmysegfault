@@ -7,6 +7,7 @@ define('battle/fightingView',
 			currentUser: undefined,
 			editor: undefined,
 			session: undefined,
+			testTimer: undefined,
 			
 			initialize: function() {
 				var self = this,
@@ -62,6 +63,9 @@ define('battle/fightingView',
 						markup = converter.makeHtml(markdown);
 
 				this.el.find('#info').html(markup);
+				
+				// run tests after the user is idle
+				$editor.keypress( $.proxy(this.onKeypress, this) );
 			},
 			
 			remove: function() {
@@ -97,6 +101,13 @@ define('battle/fightingView',
 						failures: results.failures
 					});
 				}
+			},
+			
+			onKeypress: function(){
+				if (this.testTimer){
+					window.clearTimeout(this.testTimer);
+				}
+				this.testTimer = window.setTimeout( $.proxy(this.runTests, this), 3000);
 			},
 			
 			updateUser: function(user, testResults){

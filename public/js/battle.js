@@ -14,8 +14,6 @@ define('battle', [], function(){
 			this.$codeInput = $codeInput;
 			$codeInput.before('<pre>' + challenge.setup.preCode + '</pre');
 			$codeInput.after('<pre>' + challenge.setup.postCode + '</pre>');
-			// $codeInput.change( $.proxy(this.runTests, this) );
-			// $codeInput.keypress( $.proxy(this.onKeypress, this) );
 		},
 	
 		runTests: function(callback){
@@ -52,13 +50,6 @@ define('battle', [], function(){
 				},
 				function(){callback(results);}
 			);
-		},
-		
-		onKeypress: function(){
-			if (this.testTimer){
-				window.clearTimeout(this.testTimer);
-			}
-			this.testTimer = window.setTimeout( $.proxy(this.runTests, this), 3000);
 		}
 	};
 });
