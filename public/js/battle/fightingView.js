@@ -13,6 +13,8 @@ define('battle/fightingView',
 					bus = this.options.bus,
 					currentUser = this.options.user,
 					challenge = this.options.challenge,
+					setup = challenge.setup,
+					initialValue = (setup.initialValue && setup.initialValue()) || '',
 					editor, session,
 					errorListEl;
 
@@ -47,7 +49,7 @@ define('battle/fightingView',
 					submit: 'Ctrl-Return'
 				}));
 				session.setMode(new JavaScriptMode.Mode());
-				session.setValue('');
+				session.setValue(initialValue);
 				
 				Battle.init({
 					challenge: challenge,

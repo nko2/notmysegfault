@@ -6,14 +6,24 @@ define('battle', [], function(){
 		testTimer: undefined,
 	
 		init: function(options){
-			var challenge = options.challenge;
+			var challenge = options.challenge,
+				setup = challenge.setup,
+				preCode = setup.preCode,
+				postCode = setup.postCode;
+
 			this.challenge = challenge;
 			this.editorSession = options.editorSession;
 		
 			var $codeInput = $('#workbench');
 			this.$codeInput = $codeInput;
-			$codeInput.before('<pre>' + challenge.setup.preCode + '</pre');
-			$codeInput.after('<pre>' + challenge.setup.postCode + '</pre>');
+
+			if (preCode) {
+				$codeInput.before('<pre>' + preCode + '</pre');
+			}
+
+			if (postCode) {
+				$codeInput.after('<pre>' + postCode + '</pre>');
+			}
 			// $codeInput.change( $.proxy(this.runTests, this) );
 			// $codeInput.keypress( $.proxy(this.onKeypress, this) );
 		},
@@ -21,17 +31,29 @@ define('battle', [], function(){
 		runTests: function(callback){
 			var challenge = this.challenge,
 				setup = challenge.setup,
-				code = setup.preCode + this.editorSession.getValue() + setup.postCode,
+				preCode = setup.preCode || '',
+				postCode = setup.postCode || '',
+				code = preCode + this.editorSession.getValue() + postCode,
 				results = {
 					total: 0,
 					failures: []	
-				};
+				},
+				contextBoundTests = {},
+				context = (setup.setup && setup.setup()) || {};
 
 			$.globalEval(code);
+
+			Object.keys(challenge.tests).forEach(function(n) {
+				var originalTest = challenge.tests[n];
+
+				contextBoundTests[n] = function(test) {
+					originalTest(test, context);
+				};
+			});
 		
 			nodeunit.runModule(
 				challenge.name,
-				challenge.tests,
+				contextBoundTests,
 				{ 
 					testDone: function(names, assertions) {
 						// I don't know why names is an array
