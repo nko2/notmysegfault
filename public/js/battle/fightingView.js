@@ -134,20 +134,26 @@ define('battle/fightingView',
 				var numPassed = testResults.total - testResults.failures.length,
 					$user = this.fightingEl.find('[data-user-id="' + user.id + '"]'),
 					// green if the current user, red for everyone else
-					alertColor = (this.currentUser.id === user.id) ? '#6DB126' : 'red';
+					alertColor = (this.currentUser.id === user.id) ? '#6DB126' : 'red',
+					$numTestsPassing = $user.find('.num-tests-passing');
 				
-				$user.find('.num-tests-passing').text(numPassed);
-				$('.num-tests').text(testResults.total);
-				
-				$user
-					.css('background-color', alertColor)
-					.css('color', 'white');
-				
-				setTimeout(function(){
+				if ($numTestsPassing.text() !== numPassed.toString()){
+					// the number has changed
+					
+					$numTestsPassing.text(numPassed);
+					
 					$user
-						.css('background-color', '')
-						.css('color', '');
-				}, 2000);
+						.css('background-color', alertColor)
+						.css('color', 'white');
+
+					setTimeout(function(){
+						$user
+							.css('background-color', '')
+							.css('color', '');
+					}, 2000);
+				}
+				
+				$('.num-tests').text(testResults.total);
 			}
 		});
 
