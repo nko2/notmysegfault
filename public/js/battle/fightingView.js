@@ -47,6 +47,7 @@ define('battle/fightingView',
 					editorSession: session
 				});
 				
+				// initialize scores
 				this.runTests();
 				
 				$('#challenge-name').text(challenge.name);
@@ -82,7 +83,7 @@ define('battle/fightingView',
 
 					this.bus.pub('attack', {
 						total: results.total,
-						failed: results.failures.length
+						failures: results.failures
 					});
 				}
 			},
