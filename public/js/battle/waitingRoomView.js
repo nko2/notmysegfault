@@ -40,8 +40,8 @@ define('battle/waitingRoomView',
 				}));
 
 				// Only allow the leader to start matches
-				if (challenge.leader.id !== this.options.user.id) {
-					content.find('.start').hide();	
+				if (challenge.leader.id === this.options.user.id) {
+					content.find('#leaderBox').addClass('leader');	
 				}
 
 				// Set the location so they can share

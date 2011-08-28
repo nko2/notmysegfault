@@ -91,3 +91,10 @@ body {
 .errors ul li .test:after {
 	content: ' : ';
 }
+
+#leaderBox:not(.leader)>.leading{
+	display: none;
+}
+#leaderBox.leader>.notLeading{
+	display: none;
+}
