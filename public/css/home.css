@@ -21,7 +21,7 @@ h1{
 	text-shadow: 1px 1px #555;
 }
 #title:after {
-	content: url('/images/shuriken.png');
+	content: url('/images/Shuriken.png');
 	position: absolute;
 	left: 6em;
 	top: -0.9em;
