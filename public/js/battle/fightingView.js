@@ -47,6 +47,8 @@ define('battle/fightingView',
 					editorSession: session
 				});
 				
+				this.runTests();
+				
 				$('#challenge-name').text(challenge.name);
 				$('#challenge-description').text(challenge.description);
 			},
