@@ -51,7 +51,7 @@ define('battle/session', function() {
 		socket.once('bring-it', function(data) {
 			([]).push.apply(challenge.users, data.users);
 			challenge.leader = data.leader;
-			challenge.challengeName = data.challengeName;
+			challenge.name = data.challengeName;
 
 			bus.pub(data.state === 'waiting' ? 'waiting' : 'its-kicking-off', {
 				challenge: challenge,
