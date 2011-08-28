@@ -9,8 +9,5 @@
 		"nodeunit": ">= 0.5.4",
 		"nko": ">= 0.1.1"
 	},
-	"subdomain": "jsninjabattle",
-	"scripts": {
-		"start": "server.js"
-	}
+	"subdomain": "jsninjabattle"
 }
