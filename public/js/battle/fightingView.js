@@ -15,10 +15,12 @@ define('battle/fightingView',
 					currentUser = this.options.user,
 					challenge = this.options.challenge,
 					setup = challenge.setup,
-					initialValue = (setup.initialValue && setup.initialValue()) || "// Type your solution here",
+					initialValue = (setup.initialValue && setup.initialValue()) || "// Type your solution here.",
 					editor, session,
 					errorListEl;
-
+				
+				initialValue += "\n// Tests are run automatically."
+				
 				this.currentUser = currentUser;
 				this.bus = bus;
 
