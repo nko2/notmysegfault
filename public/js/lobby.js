@@ -15,10 +15,11 @@ var battles = new (Backbone.Collection.extend({
 			return this.models.sort(comparator);
 		},
 		comparator: function(a, b){
-			if (a.get('state') === 'fighting') {
-				return 1;
-			} else if (b.get('state') === 'fighting'){
+			var aFighting = a.get('state') === 'fighting', bFighting = b.get('state') === 'fighting';
+			if (aFighting && ! bFighting) {
 				return -1;
+			} else if (bFighting && ! aFighting){
+				return 1;
 			} else {
 				return b.id - a.id;
 			}
