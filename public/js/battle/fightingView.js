@@ -77,7 +77,7 @@ define('battle/fightingView',
 			},
 			
 			updateUser: function(user, testResults){
-				var numPassed = testResults.total - testResults.failed;
+				var numPassed = testResults.total - testResults.failures.length;
 				
 				this.fightingEl.find('[data-user-id=' + user.id + '] .num-tests-passing').text(numPassed);
 				$('.num-tests').text(testResults.total);
