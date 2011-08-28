@@ -1,4 +1,4 @@
-/* punch
+/* start
 *******************************************************************************/
 button.start {
   background: #4162a8;
@@ -25,20 +25,20 @@ button.start {
   text-shadow: 0px -1px 1px #1e2d4d;
   width: 150px;
   -webkit-background-clip: padding-box; }
-  button.punch:hover {
+  button.start:hover {
     -webkit-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
     -moz-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
     -ms-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
     -o-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
     box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
     cursor: pointer; }
-  button.punch:active {
+  button.start:active {
     -webkit-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
     -moz-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
     -ms-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
     -o-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
     box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
-    margin-top: 58px; }
+    margin-top: 10px; }
 	.users {
 		list-style: none;
 		text-align: center;
@@ -67,9 +67,9 @@ button.start {
 		color: #47AAAE;
 		text-decoration: underline;
 	}
-	h1 {
+	#sharecontainer h1 {
 		border-bottom: 1px solid;
-		padding: 0.2em 0;
+		padding: 0.2em 0 !important;
 		width: 92%;
 		margin: 0 auto;
 		padding: 0 0.5em;
