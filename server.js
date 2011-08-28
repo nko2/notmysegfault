@@ -39,6 +39,7 @@ var battles = {},
 					};
 				
 				battles[battle.id] = battle;
+				lobby.add(battle);
 
 				return battle;
 			};
@@ -129,7 +130,7 @@ function failSocket(socket, message) {
 	});
 }
 
-io.sockets.on('connection', function(socket) {
+io.of('/battle').on('connection', function(socket) {
 	var battle, user;
 
 	socket.on('talking-shit', function(data) {
@@ -154,6 +155,7 @@ io.sockets.on('connection', function(socket) {
 			});
 			// Add this user to the current users collection
 			battle.users.push(data.user);
+			lobby.update(battle);
 		}
 
 		battle.sockets.push(socket);
@@ -171,6 +173,7 @@ io.sockets.on('connection', function(socket) {
 		battle.state = 'fighting';
 		battle.challengeName = 'wordCount';
 
+		lobby.update(battle);
 		battle.sockets.forEach(function(socket) {
 			socket.emit('its-kicking-off', {
 				challengeName: battle.challengeName
@@ -190,7 +193,43 @@ io.sockets.on('connection', function(socket) {
 		battle.sockets.forEach(function(socket) {
 			socket.emit('game-over', data);
 		});
+		battle.state = 'over';
+		lobby.destroy(battle);
 	});
 });
+
+var lobby = new (function(){
+	function prepBattle(battle){
+		return {
+			id: battle.id,
+			leader: battle.leader,
+			state: battle.state,
+			users: battle.users
+		};
+	}
+
+	function Lobby(){
+		this.sockets = io.of('/lobby')
+			.on('connection', function(socket){
+				var battleArray = [];
+				for (var key in battles) {
+					if (battles[key].state !== 'over') {
+						battleArray.push(prepBattle(battles[key]));
+					}
+				}
+				socket.emit('refresh', battleArray);
+			});
+	}
+	Lobby.prototype.update = function(battle){
+		this.sockets.emit('update', prepBattle(battle));
+	}
+	Lobby.prototype.add = function(battle){
+		this.sockets.emit('add', prepBattle(battle));
+	}
+	Lobby.prototype.destroy = function(battle){
+		this.sockets.emit('destroy', battle.id);
+	}
+	return Lobby;
+}());
 
 app.listen(3000);

@@ -1,7 +1,7 @@
 define('battle/session', function() {
 	
 	function Session(options) {
-		var socket = io.connect(),
+		var socket = io.connect('/battle'),
 			bus = options.bus,
 			me = options.user,
 			subs = [],
