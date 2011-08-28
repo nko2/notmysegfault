@@ -81,9 +81,22 @@ define('battle/fightingView',
 			},
 			
 			runTests: function(){
-									try{
-				Battle.runTests( $.proxy(this.onTestsComplete, this) );
-									} catch (e) {}
+				try{
+					Battle.runTests( $.proxy(this.onTestsComplete, this) );
+				} catch (e) { 
+					this.onTestsErrord(e, this); 
+				}
+			},
+
+			onTestsErrord: function(error) {
+				this.$errorList.children().remove();
+
+				var name = $('<span>').text('Unable to run tests').addClass('test'),
+					message = $('<span>').text(error.message).addClass('error');
+
+				$('<li>').append(name).append(message).appendTo(this.$errorList);
+
+				this.editor.resize();
 			},
 			
 			onTestsComplete: function(results){
