@@ -132,7 +132,7 @@ app.get('/:id', ensureUser, function(req, res) {
 	var battle = battles[req.params.id];
 
 	if (!battle) {
-		res.send('BATTLE NO EXIST IDIOT', 404);
+		res.render('no_battle.html', {status: 404});
 		return;
 	}
 

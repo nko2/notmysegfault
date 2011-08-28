@@ -74,13 +74,6 @@ define('battle', [], function(){
 				},
 				function(){callback(results);}
 			);
-		},
-		
-		onKeypress: function(){
-			if (this.testTimer){
-				window.clearTimeout(this.testTimer);
-			}
-			this.testTimer = window.setTimeout( $.proxy(this.runTests, this), 3000);
 		}
 	};
 });
