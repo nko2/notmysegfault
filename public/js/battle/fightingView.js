@@ -72,12 +72,13 @@ define('battle/fightingView',
 				} else {
 					this.$errorList.children().remove();
 
-					results.failures.forEach(function(failure) {
-						var name = $('<span>').text(failure.name).addClass('test'),
+					for (var i = 0; i < results.failures.length; i++){
+						var failure = results.failures[i],
+							name = $('<span>').text(failure.name).addClass('test'),
 							message = $('<span>').text(failure.message).addClass('error');
 
 						$('<li>').append(name).append(message).appendTo(this.$errorList);
-					});
+					}
 
 					this.editor.resize();
 
