@@ -1,5 +1,6 @@
 var express = require('express'),
 	everyauth = require('everyauth'),
+	fs = require('fs'),
 	app = express.createServer(),
 	io = require('socket.io').listen(app);
 
@@ -53,6 +54,24 @@ function ensureUser(req, res, next) {
 		return;
 	}
 }
+
+var challenges = (function() {
+	var files	= fs.readdirSync('./public/js/challenges'),
+		namePattern = /^([a-zA-Z0-9]+)\./,
+		challenges = {};
+
+	files.forEach(function(file) {
+		var challengeNameMatch = namePattern.exec(file),
+			name;
+
+		if (challengeNameMatch) {
+			name = challengeNameMatch[1];
+			challenges[name] = name;
+		}
+	});
+
+	return Object.keys(challenges);
+})();
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.cookieParser());
@@ -171,7 +190,7 @@ io.of('/battle').on('connection', function(socket) {
 
 	socket.on('kick-off', function() {
 		battle.state = 'fighting';
-		battle.challengeName = 'wordCount';
+		battle.challengeName = challenges[Math.floor(challenges.length * Math.random())];
 
 		lobby.update(battle);
 		battle.sockets.forEach(function(socket) {
