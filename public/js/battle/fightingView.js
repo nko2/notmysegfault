@@ -15,7 +15,7 @@ define('battle/fightingView',
 					currentUser = this.options.user,
 					challenge = this.options.challenge,
 					setup = challenge.setup,
-					initialValue = (setup.initialValue && setup.initialValue()) || '',
+					initialValue = (setup.initialValue && setup.initialValue()) || "// Type your solution here",
 					editor, session,
 					errorListEl;
 
