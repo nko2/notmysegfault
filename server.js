@@ -178,6 +178,11 @@ io.of('/battle').on('connection', function(socket) {
 			lobby.destroy(battle);
 			delete battles[battle.id];
 		} else {
+			battle.sockets.forEach(function(socket) {
+				socket.emit('user-fucked-off', {
+					user: user
+				});
+			});
 			lobby.update(battle);
 		}
 	});
