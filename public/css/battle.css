@@ -55,20 +55,6 @@ body {
 	-webkit-box-orient: vertical;
 }
 
-#main #battlefield #workbench-wrapper {
-	box-flex: 1;
-	-moz-box-flex: 1;
-	-webkit-box-flex: 1;
-	
-	display: box;
-	display: -moz-box;
-	display: -webkit-box;
-	
-	box-orient: vertical;
-	-moz-box-orient: vertical;
-	-webkit-box-orient: vertical;
-}
-
 #workbench {
 	box-flex: 1;
 	-moz-box-flex: 1;
