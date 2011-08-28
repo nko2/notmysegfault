@@ -3,58 +3,37 @@ define('battle/fightingView',
 	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle, challenge) {
 
 		var FightingView = Backbone.View.extend({
+			bus: undefined,
+			currentUser: undefined,
+			editor: undefined,
+			session: undefined,
+			
 			initialize: function() {
-				var self = this,
-					bus = this.options.bus,
-					currentUser = this.options.user,
-					editor, session,
-					errorListEl;
-
+				this.bus = this.options.bus;
+				this.currentUser = this.options.user;
+				
 				var fightingEl = $(tmpl).tmpl(this.options.challenge);
 				this.fightingEl = fightingEl;
 				
 				fightingEl.appendTo(this.el);
 				
-				errorListEl = this.el.find('.errors ul');
-				editorEl = $('#ace-host');
+				this.$errorList = this.el.find('.errors ul');
 
 				canon.addCommand({
 					name:'submit',
-					exec: function() {
-						Battle.runTests(function(results){
-							self.updateUser.call(self, currentUser, results);
-							
-							if (results.failures.length === 0) {
-								bus.pub('winning', {
-									code: session.getValue()
-								});
-							} else {
-								errorListEl.children().remove();
-
-								results.failures.forEach(function(failure) {
-									var name = $('<span>').text(failure.name).addClass('test'),
-										message = $('<span>').text(failure.message).addClass('error');
-
-									$('<li>').append(name).append(message).appendTo(errorListEl);
-								});
-
-								editor.resize();
-
-								bus.pub('attack', {
-									total: results.total,
-									failed: results.failures.length
-								});
-							}
-						});
-					}
+					exec: $.proxy(this.runTests, this)
 				});
 				
-				bus.sub('attacked', $.proxy(function(data) {
+				this.bus.sub('attacked', $.proxy(function(data) {
 					this.updateUser.call(this, data.user, data);
 				}, this));
-
-				editor = ace.edit(editorEl[0]);
-				session = editor.getSession();
+				
+				var $editor = $('#ace-host'),
+					editor = ace.edit($editor[0]),
+					session = editor.getSession();
+				
+				this.editor = editor;
+				this.session = session;
 				
 				editor.setShowPrintMargin(false);
 				editor.setKeyboardHandler(new hashHandler.HashHandler({
@@ -74,6 +53,36 @@ define('battle/fightingView',
 			
 			remove: function() {
 				this.el.children().remove();
+			},
+			
+			runTests: function(){
+				Battle.runTests( $.proxy(this.onTestsComplete, this) );
+			},
+			
+			onTestsComplete: function(results){
+				this.updateUser.call(this, this.currentUser, results);
+				
+				if (results.failures.length === 0) {
+					this.bus.pub('winning', {
+						code: session.getValue()
+					});
+				} else {
+					this.$errorList.children().remove();
+
+					results.failures.forEach(function(failure) {
+						var name = $('<span>').text(failure.name).addClass('test'),
+							message = $('<span>').text(failure.message).addClass('error');
+
+						$('<li>').append(name).append(message).appendTo(this.$errorList);
+					});
+
+					this.editor.resize();
+
+					this.bus.pub('attack', {
+						total: results.total,
+						failed: results.failures.length
+					});
+				}
 			},
 			
 			updateUser: function(user, testResults){
