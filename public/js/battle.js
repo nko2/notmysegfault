@@ -1,24 +1,4 @@
 define('battle', [], function(){
-
-	function decameltize(identifier) {
-    var words = '', ch;
-    
-    for (var i = 0; i < identifier.length; i++) {
-        ch = identifier.charAt(i);
-        
-        if (i === 0) {
-            words += ch.toUpperCase();
-        } else if (ch.toUpperCase() === ch) {
-            words += ' ' + ch.toLowerCase();
-        } else {
-            words += ch;
-        }
-    }
-    
-    return words;
-	}
-
-
 	return {
 		challenge: undefined,
 		$codeInput: undefined,
@@ -55,7 +35,7 @@ define('battle', [], function(){
 				{ 
 					testDone: function(names, assertions) {
 						// I don't know why names is an array
-						var name = decameltize(names[0]),
+						var name = names[0],
 							failures = assertions.filter(function(a) {
 								return a.failed();
 							});

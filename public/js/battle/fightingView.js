@@ -32,7 +32,7 @@ define('battle/fightingView',
 				});
 				
 				bus.sub('attacked', $.proxy(function(data) {
-					this.updateUser.call(this, data.user, data);
+					this.updateUser(data.user, data);
 				}, this));
 				
 				var $editor = $('#ace-host'),
@@ -73,7 +73,7 @@ define('battle/fightingView',
 			},
 			
 			onTestsComplete: function(results){
-				this.updateUser.call(this, this.currentUser, results);
+				this.updateUser(this.currentUser, results);
 				
 				if (results.failures.length === 0) {
 					this.bus.pub('winning', {
