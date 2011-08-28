@@ -1,6 +1,6 @@
 define('battle/fightingView',
-				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle'], 
-	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle) {
+				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle', 'ace/theme/idle_fingers'], 
+	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle, idleFingersTheme) {
 
 		var FightingView = Backbone.View.extend({
 			bus: undefined,
@@ -15,10 +15,12 @@ define('battle/fightingView',
 					currentUser = this.options.user,
 					challenge = this.options.challenge,
 					setup = challenge.setup,
-					initialValue = (setup.initialValue && setup.initialValue()) || '',
+					initialValue = (setup.initialValue && setup.initialValue()) || "// Type your solution here.",
 					editor, session,
 					errorListEl;
-
+				
+				initialValue += "\n// Tests are run automatically."
+				
 				this.currentUser = currentUser;
 				this.bus = bus;
 
@@ -56,7 +58,9 @@ define('battle/fightingView',
 					submit: 'Ctrl-Return'
 				}));
 				session.setMode(new JavaScriptMode.Mode());
+				editor.setTheme(idleFingersTheme);
 				session.setValue(initialValue);
+				editor.setFontSize('14px');
 				
 				Battle.init({
 					challenge: challenge,
@@ -127,10 +131,23 @@ define('battle/fightingView',
 			},
 			
 			updateUser: function(user, testResults){
-				var numPassed = testResults.total - testResults.failures.length;
+				var numPassed = testResults.total - testResults.failures.length,
+					$user = this.fightingEl.find('[data-user-id="' + user.id + '"]'),
+					// green if the current user, red for everyone else
+					alertColor = (this.currentUser.id === user.id) ? '#6DB126' : 'red';
 				
-				this.fightingEl.find('[data-user-id=' + user.id + '] .num-tests-passing').text(numPassed);
+				$user.find('.num-tests-passing').text(numPassed);
 				$('.num-tests').text(testResults.total);
+				
+				$user
+					.css('background-color', alertColor)
+					.css('color', 'white');
+				
+				setTimeout(function(){
+					$user
+						.css('background-color', '')
+						.css('color', '');
+				}, 2000);
 			}
 		});
 

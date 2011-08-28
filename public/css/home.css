@@ -1,12 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Gentium+Book+Basic);
-@import url(http://fonts.googleapis.com/css?family=Voltaire);
-
 body{
-	font: 18px 'Voltaire', sans-serif;
-	margin: 0;
-	padding: 2em;
-	background-color: #333;
-	color: #BBB;
 	min-width: 45em;
 }
 h1{
@@ -21,7 +13,7 @@ h1{
 	text-shadow: 1px 1px #555;
 }
 #title:after {
-	content: url('/images/shuriken.png');
+	content: url('/images/Shuriken.png');
 	position: absolute;
 	left: 6em;
 	top: -0.9em;
@@ -37,17 +29,6 @@ h2{
 	text-align: center;
 	margin-bottom: 0.8em;
 	font-size: 1.1em;
-}
-a:hover {
-	color: #47AAAE;
-	text-decoration: underline;
-}
-a:visited {
-	color: #8547AE;
-	text-decoration: underline;
-}
-a {
-	color: #476DAE;
 }
 #main {
 	display: box;
@@ -129,10 +110,4 @@ ul.userList>li img {
 	
 	font-size: 0.8em;
 	text-align: center;
-}
-
-#vote-button {
-	width: 120px;
-	height: 25px;
-	border: none;
 }

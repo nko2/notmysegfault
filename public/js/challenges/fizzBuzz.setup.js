@@ -6,7 +6,7 @@ exports.setup = function() {
 	}
 
 	// Make print function global
-	window.printValue = printValue;
+	window.write = printValue;
 
 	return {
 		results: results
@@ -14,5 +14,5 @@ exports.setup = function() {
 };
 
 exports.initialValue = function() {
-	return "// Example: printValue('FizzBuzz')";
+	return "// Example: write('FizzBuzz')";
 };

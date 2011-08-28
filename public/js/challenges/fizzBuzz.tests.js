@@ -1,9 +1,9 @@
-exports['there should have been 100 messages printed'] = function(test, context) {
+exports['there should have been 100 messages written'] = function(test, context) {
 	test.equal(context.results.length, 100, 'Expected 100 messages but found ' + context.results.length + '.');
 	test.done();
 };
 
-exports['prints numbers'] = function(test, context) {
+exports['writes numbers'] = function(test, context) {
 	var actual;
 
 	for (var i = 1; i <= 100; i++) {
@@ -16,7 +16,7 @@ exports['prints numbers'] = function(test, context) {
 	test.done();
 };
 
-exports['prints Fizz for multiples of 3'] = function(test, context) {
+exports['writes Fizz for multiples of 3'] = function(test, context) {
 	var actual;
 
 	for (var i = 1; i <= 100; i++) {
@@ -29,7 +29,7 @@ exports['prints Fizz for multiples of 3'] = function(test, context) {
 	test.done();
 };
 
-exports['prints Buzz for multiples of 5'] = function(test, context) {
+exports['writes Buzz for multiples of 5'] = function(test, context) {
 	var actual;
 
 	for (var i = 1; i <= 100; i++) {
@@ -42,7 +42,7 @@ exports['prints Buzz for multiples of 5'] = function(test, context) {
 	test.done();
 };
 
-exports['prints FizzBuzz for multiples of 3 and 5'] = function(test, context) {
+exports['writes FizzBuzz for multiples of 3 and 5'] = function(test, context) {
 	var actual;
 
 	for (var i = 1; i <= 100; i++) {
