@@ -224,6 +224,10 @@ io.of('/battle').on('connection', function(socket) {
 	});
 
 	socket.on('kick-off', function() {
+		if (!battle) {
+			failSocket(socket, "There's been some awesome screw up on the backend. Sorry about that...");
+		}
+		
 		battle.state = 'fighting';
 		battle.challengeName = challenges[Math.floor(challenges.length * Math.random())];
 

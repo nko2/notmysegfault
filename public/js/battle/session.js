@@ -17,6 +17,7 @@ define('battle/session', function() {
 		// Global error handler
 		socket.on('bugger-off', function(data) {
 			alert('UR BACKEND ERRORD: ' + data.message);
+			window.location = window.location.origin;
 		});
 
 		socket.on('starting-something', function(data) {
