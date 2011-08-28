@@ -41,21 +41,7 @@ body {
 	-webkit-box-orient: horizontal;
 }
 
-#main #battlefield {
-	box-flex: 1;
-	-moz-box-flex: 1;
-	-webkit-box-flex: 1;
-	
-	display: box;
-	display: -moz-box;
-	display: -webkit-box;
-	
-	box-orient: vertical;
-	-moz-box-orient: vertical;
-	-webkit-box-orient: vertical;
-}
-
-#workbench {
+#main #workbench {
 	box-flex: 1;
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
@@ -63,15 +49,17 @@ body {
 	position: relative;
 }
 
-#workbench #editor #ace-host {
-	position: absolute;
-	height: 100%;
+#editor,
+#editor #ace-host {
 	width: 100%;
-	left: 0; right: 0;
-	top: 0; bottom: 0;
+	height: 300px;
 }
 
-#editor #ace-host .ace_gutter {
+#editor #ace-host {
+	position: absolute;
+}
+
+#editor .ace_gutter {
 	visibility: hidden;
 }
 
