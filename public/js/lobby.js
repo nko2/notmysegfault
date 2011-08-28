@@ -49,7 +49,7 @@ var battles = new (Backbone.Collection.extend({
 			var $el = $(this.el), $footer = $el.children('.footer:first');
 			$el.children(':not(.footer)').remove();
 			this.collection.each(function(model){
-				$((new this.view({ model: model })).el).insertAfter($footer);
+				$((new this.view({ model: model })).el).insertBefore($footer);
 			}, this);
 		}
 	}))({ collection: battles });
