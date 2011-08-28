@@ -24,8 +24,6 @@ define('battle', [], function(){
 			if (postCode) {
 				$codeInput.after('<pre>' + postCode + '</pre>');
 			}
-			// $codeInput.change( $.proxy(this.runTests, this) );
-			// $codeInput.keypress( $.proxy(this.onKeypress, this) );
 		},
 	
 		runTests: function(callback){

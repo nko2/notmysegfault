@@ -13,10 +13,52 @@ pre {
 	height: 20px;
 }
 
-#container {
+body {
 	position: absolute;
 	left: 0; right: 0;
 	top: 0; bottom: 0;
+	
+	display: box;
+	display: -moz-box;
+	display: -webkit-box;
+	
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+#main {
+	box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	
+	display: box;
+	display: -moz-box;
+	display: -webkit-box;
+	
+	box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	-webkit-box-orient: horizontal;
+}
+
+#main #battlefield {
+	box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	
+	display: box;
+	display: -moz-box;
+	display: -webkit-box;
+	
+	box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-box-orient: vertical;
+}
+
+#main #battlefield #workbench-wrapper {
+	box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
 	
 	display: box;
 	display: -moz-box;
@@ -32,21 +74,7 @@ pre {
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 	
-	display: box;
-	display: -moz-box;
-	display: -webkit-box;
-	
-	box-orient: horizontal;
-	-moz-box-orient: horizontal;
-	-webkit-box-orient: horizontal;
-}
-
-#workbench #editor {
 	position: relative;
-	
-	box-flex: 1;
-	-moz-box-flex: 1;
-	-webkit-box-flex: 1;
 }
 
 #workbench #editor #ace-host {
@@ -57,13 +85,13 @@ pre {
 	top: 0; bottom: 0;
 }
 
-#workbench #editor #ace-host .ace_gutter {
+#editor #ace-host .ace_gutter {
 	visibility: hidden;
 }
 
-#workbench #info {
+#main #info {
+	width: 325px;
 	padding: 0 20px;
-	width: 20%;
 }
 
 .errors ul li {

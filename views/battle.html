@@ -3,10 +3,6 @@
 	<head>
 		<title>BATTLE FOOLS!</title>
 		<link rel=stylesheet href="css/battle.css" />
-	</head>
-	<body>
-		<div id=container>
-		</div>
 		<script id="session-data" type="application/json">
 			<%- JSON.stringify({"user": {
 				"id": user.id,
@@ -36,13 +32,17 @@
 		<script src="js/libs/nodeunit.js"></script>
 		<script>
 			require(['battle/bootstrapper'], function(bootstrapper) {
-				var session = JSON.parse($('#session-data').text());
+				$(function(){
+					var session = JSON.parse($('#session-data').text());
 
-				bootstrapper.init({
-					el: $('#container'),
-					session: session
+					bootstrapper.init({
+						el: $('body'),
+						session: session
+					});
 				});
 			});
 		</script>
+	</head>
+	<body>
 	</body>
 </html>

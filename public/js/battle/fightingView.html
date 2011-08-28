@@ -1,5 +1,5 @@
 <div>
-<div id=header>
+<div id="header">
 	<ul>
 		{{each users}}
 		<li data-user-id="${id}">
@@ -10,17 +10,22 @@
 		{{/each}}
 	</ul>
 </div>
-<hr/>
-<div id="workbench">
-	<div id="editor">
-		<div id="ace-host">
+<div id="main">
+	<div id="battlefield">
+		<div id="workbench-wrapper">
+			<div id="workbench">
+				<div id="editor">
+					<div id="ace-host">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="errors">
+			<ul>
+			</ul>
 		</div>
 	</div>
 	<div id="info">
 	</div>
-</div>
-<div class="errors">
-	<ul>
-	</ul>
 </div>
 </div>
