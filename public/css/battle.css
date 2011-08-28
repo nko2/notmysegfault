@@ -47,3 +47,20 @@ pre {
 	padding: 0 20px;
 	width: 20%;
 }
+
+.errors ul li {
+	list-style-type: none;
+}
+
+.errors ul li:before {
+	content: ' ✖ ';
+	color: red;
+}
+
+.errors ul li .test {
+	font-weight: bold;
+}
+
+.errors ul li .test:after {
+	content: ' : ';
+}

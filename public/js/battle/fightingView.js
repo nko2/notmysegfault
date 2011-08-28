@@ -7,23 +7,21 @@ define('battle/fightingView',
 				var self = this,
 					bus = this.options.bus,
 					currentUser = this.options.user,
-					editor, session;
+					editor, session,
+					errorListEl;
 
 				var fightingEl = $(tmpl).tmpl(this.options.challenge);
 				this.fightingEl = fightingEl;
 				
 				fightingEl.appendTo(this.el);
-
+				
+				errorListEl = this.el.find('.errors ul');
 				editorEl = $('#ace-host');
 
 				canon.addCommand({
 					name:'submit',
 					exec: function() {
 						Battle.runTests(function(results){
-							results.failures.forEach(function(failure) {
-								console.log(failure.name, ': ', failure.message);
-							});
-
 							self.updateUser.call(self, currentUser, results);
 							
 							if (results.failures.length === 0) {
@@ -31,6 +29,17 @@ define('battle/fightingView',
 									code: session.getValue()
 								});
 							} else {
+								errorListEl.children().remove();
+
+								results.failures.forEach(function(failure) {
+									var name = $('<span>').text(failure.name).addClass('test'),
+										message = $('<span>').text(failure.message).addClass('error');
+
+									$('<li>').append(name).append(message).appendTo(errorListEl);
+								});
+
+								editor.resize();
+
 								bus.pub('attack', {
 									total: results.total,
 									failed: results.failures.length
