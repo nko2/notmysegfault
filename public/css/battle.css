@@ -1,6 +1,7 @@
 pre {
 	margin-left: 20px;
-	font-family: Monaco, serif;
+	/* copied from ACE's editor.css */
+	font-family: 'Monaco', 'Menlo', 'Droid Sans Mono', 'Courier New', monospace;
 }
 
 #header ul li {	
@@ -16,18 +17,35 @@ pre {
 	position: absolute;
 	left: 0; right: 0;
 	top: 0; bottom: 0;
+	
+	display: box;
+	display: -moz-box;
 	display: -webkit-box;
+	
+	box-orient: vertical;
+	-moz-box-orient: vertical;
 	-webkit-box-orient: vertical;
 }
 
 #workbench {
+	box-flex: 1;
+	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
+	
+	display: box;
+	display: -moz-box;
 	display: -webkit-box;
+	
+	box-orient: horizontal;
+	-moz-box-orient: horizontal;
 	-webkit-box-orient: horizontal;
 }
 
 #workbench #editor {
 	position: relative;
+	
+	box-flex: 1;
+	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 }
 
