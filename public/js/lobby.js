@@ -28,7 +28,7 @@ var battles = new (Backbone.Collection.extend({
 	battleListView = new (Backbone.View.extend({
 		view: Backbone.View.extend({
 			tagName: 'li',
-			template: $.template('<a{{if state === "waiting"}} href="/${id}"{{/if}}><ul class="userList inlineList">{{each users}}<li>${$value.login}</li>{{/each}}</ul>{{if state === \'fighting\'}} (battling now){{/if}}</a>'),
+			template: $.template('<a{{if state === "waiting"}} href="/${id}"{{/if}}><ul class="userList inlineList">{{each users}}<li><a target="_blank" href="http://github.com/${$value.login}" title="${$value.login}"><img class="profile" width="64" height="64" src="https://secure.gravatar.com/avatar/${$value.gravatar}?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" /></li>{{/each}}</ul>{{if state === \'fighting\'}} (battling now){{/if}}</a>'),
 			initialize: function(){
 				this.el.className = 'battle';
 				this.render();

@@ -177,6 +177,8 @@ io.of('/battle').on('connection', function(socket) {
 			// Remove the battle
 			lobby.destroy(battle);
 			delete battles[battle.id];
+		} else {
+			lobby.update(battle);
 		}
 	});
 
