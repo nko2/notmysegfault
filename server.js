@@ -33,11 +33,11 @@ everyauth.github
 
 var battles = {},
 		makeBattle = (function() {
-			var cid = 0;
+			var cid = 10000;
 
 			return function(leader) {
 				var battle = {
-						id: cid++,
+						id: (cid++).toString(36),
 						users: [],
 						sockets: [],
 						leader: leader,
