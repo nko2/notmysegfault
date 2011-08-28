@@ -77,7 +77,7 @@ define('battle/fightingView',
 				
 				if (results.failures.length === 0) {
 					this.bus.pub('winning', {
-						code: session.getValue()
+						code: this.session.getValue()
 					});
 				} else {
 					this.$errorList.children().remove();

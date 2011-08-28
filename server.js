@@ -162,15 +162,18 @@ io.sockets.on('connection', function(socket) {
 		socket.emit('bring-it', {
 			users: battle.users,
 			leader: battle.leader,
-			state: battle.state
+			state: battle.state,
+			challengeName: battle.challengeName
 		});
 	});
 
 	socket.on('kick-off', function() {
 		battle.state = 'fighting';
+		battle.challengeName = 'wordCount';
+
 		battle.sockets.forEach(function(socket) {
 			socket.emit('its-kicking-off', {
-				challengeName: 'wordCount'
+				challengeName: battle.challengeName
 			});
 		});
 	});
