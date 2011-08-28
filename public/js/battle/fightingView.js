@@ -1,6 +1,6 @@
 define('battle/fightingView',
-				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle', 'cjs!challenges/word_count'], 
-	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle, challenge) {
+				['ace/ace', 'ace/mode/javascript', 'pilot/canon', 'ace/keyboard/hash_handler', 'text!./fightingView.html', 'battle'], 
+	function(ace, JavaScriptMode, canon, hashHandler, tmpl, Battle) {
 
 		var FightingView = Backbone.View.extend({
 			bus: undefined,
@@ -9,9 +9,16 @@ define('battle/fightingView',
 			session: undefined,
 			
 			initialize: function() {
-				this.bus = this.options.bus;
-				this.currentUser = this.options.user;
-				
+				var self = this,
+					bus = this.options.bus,
+					currentUser = this.options.user,
+					challenge = this.options.challenge,
+					editor, session,
+					errorListEl;
+
+				this.currentUser = currentUser;
+				this.bus = bus;
+
 				var fightingEl = $(tmpl).tmpl(this.options.challenge);
 				this.fightingEl = fightingEl;
 				
@@ -24,7 +31,7 @@ define('battle/fightingView',
 					exec: $.proxy(this.runTests, this)
 				});
 				
-				this.bus.sub('attacked', $.proxy(function(data) {
+				bus.sub('attacked', $.proxy(function(data) {
 					this.updateUser.call(this, data.user, data);
 				}, this));
 				
@@ -50,8 +57,11 @@ define('battle/fightingView',
 				// initialize scores
 				this.runTests();
 				
-				$('#challenge-name').text(challenge.name);
-				$('#challenge-description').text(challenge.description);
+				var markdown = challenge.description,
+						converter = new Showdown.converter(),
+						markup = converter.makeHtml(markdown);
+
+				this.el.find('#info').html(markup);
 			},
 			
 			remove: function() {

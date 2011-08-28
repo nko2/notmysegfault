@@ -30,19 +30,18 @@ define('battle', [], function(){
 			this.challenge = challenge;
 			this.editorSession = options.editorSession;
 		
-			$('#challenge-name').text(challenge.name);
-			$('#challenge-description').text(challenge.description);
-		
 			var $codeInput = $('#workbench');
 			this.$codeInput = $codeInput;
-			$codeInput.before('<pre>' + challenge.preCode + '</pre');
-			$codeInput.after('<pre>' + challenge.postCode + '</pre>');
+			$codeInput.before('<pre>' + challenge.setup.preCode + '</pre');
+			$codeInput.after('<pre>' + challenge.setup.postCode + '</pre>');
 			// $codeInput.change( $.proxy(this.runTests, this) );
 			// $codeInput.keypress( $.proxy(this.onKeypress, this) );
 		},
 	
 		runTests: function(callback){
-			var code = this.challenge.preCode + this.editorSession.getValue() + this.challenge.postCode,
+			var challenge = this.challenge,
+				setup = challenge.setup,
+				code = setup.preCode + this.editorSession.getValue() + setup.postCode,
 				results = {
 					total: 0,
 					failures: []	
@@ -51,8 +50,8 @@ define('battle', [], function(){
 			$.globalEval(code);
 		
 			nodeunit.runModule(
-				this.challenge.name,
-				this.challenge.tests,
+				challenge.name,
+				challenge.tests,
 				{ 
 					testDone: function(names, assertions) {
 						// I don't know why names is an array

@@ -40,7 +40,8 @@ define('battle/session', function() {
 			bus.pub('attacked', data);
 		});
 
-		socket.on('its-kicking-off', function() {
+		socket.on('its-kicking-off', function(data) {
+			challenge.name = data.challengeName;
 			bus.pub('its-kicking-off',{
 				challenge: challenge,
 				user: me

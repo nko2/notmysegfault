@@ -169,7 +169,9 @@ io.sockets.on('connection', function(socket) {
 	socket.on('kick-off', function() {
 		battle.state = 'fighting';
 		battle.sockets.forEach(function(socket) {
-			socket.emit('its-kicking-off');
+			socket.emit('its-kicking-off', {
+				challengeName: 'wordCount'
+			});
 		});
 	});
 

@@ -23,15 +23,31 @@ define('battle/shell',
 			}
 
 			Shell.prototype.kickOff = function(data) {
+				var self = this,
+						challenge = data.challenge,
+						name = challenge.name,
+						dependencies = [
+							'cjs!challenges/' + name + '.setup',
+							'cjs!challenges/' + name + '.tests',
+							'text!challenges/' + name + '.md'	
+						];
+
 				if (this.currentView) {
 					this.currentView.remove();
 				}
 
-				var fightingView = this.currentView = new FightingView({
-					el: this.el,
-					bus: this.bus,
-					challenge: data.challenge,
-					user: data.user
+				// Load the challenge details
+				require(dependencies, function(setup, tests, description) {
+					challenge.setup = setup;
+					challenge.tests = tests;
+					challenge.description = description;
+
+					var fightingView = self.currentView = new FightingView({
+						el: self.el,
+						bus: self.bus,
+						challenge: data.challenge,
+						user: data.user
+					});
 				});
 			}
 
