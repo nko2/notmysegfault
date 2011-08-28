@@ -37,6 +37,12 @@ define('battle/fightingView',
 				bus.sub('attacked', $.proxy(function(data) {
 					this.updateUser(data.user, data);
 				}, this));
+
+				bus.sub('user-fucked-off', function(data) {
+					fightingEl.find('[data-user-id=' + data.user.id + ']').hide('fast', function() {
+						$(this).remove();
+					});
+				});
 				
 				var $editor = $('#ace-host'),
 					editor = ace.edit($editor[0]),

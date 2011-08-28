@@ -48,6 +48,25 @@ define('battle/session', function() {
 			});
 		});
 
+		socket.on('user-fucked-off', function(data) {
+			// Remove from local challenge
+			var users = challenge.users,
+				userIndex;
+
+			users.forEach(function(u, index) {
+				if (data.user.id === u.id) {
+					userIndex = index;
+					return false;
+				}
+			});
+
+			if (userIndex >= 0)
+				users.splice(userIndex, 1);
+
+			// Tell any subscribers
+			bus.pub('user-fucked-off', data);
+		});
+
 		socket.once('bring-it', function(data) {
 			([]).push.apply(challenge.users, data.users);
 			challenge.leader = data.leader;
