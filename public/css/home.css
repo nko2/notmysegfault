@@ -26,7 +26,6 @@ h1{
 	left: 6em;
 	top: -0.9em;
 }
-
 #user{
 	line-height: 3em;
 	float: right;
@@ -39,7 +38,17 @@ h2{
 	margin-bottom: 0.8em;
 	font-size: 1.1em;
 }
-
+a:hover {
+	color: #47AAAE;
+	text-decoration: underline;
+}
+a:visited {
+	color: #8547AE;
+	text-decoration: underline;
+}
+a {
+	color: #476DAE;
+}
 #main {
 	display: box;
 	display: -moz-box;
