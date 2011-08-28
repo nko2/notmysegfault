@@ -2,82 +2,7 @@
 <html>
 <head>
 	<title>JS Ninja Battle</title>
-	<style>
-		body{
-			font: 18px "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-			margin: 0;
-			padding: 2em;
-		}
-		h1{
-			margin-top: 0;
-			border-bottom: 1px solid black;
-			padding: 0.2em 0;
-		}
-		#user{
-			float: right;
-			line-height: 3em;
-		}
-		h2{
-			text-align: center;
-			margin-bottom: 0.8em;
-			font-size: 1.1em;
-		}
-		#openbattles{
-			border: 1px solid #CCC;
-			background: #F3F3F3;
-			box-shadow: inset 0 0 0.5em #BBB;
-			width: 25em;
-			margin: 0 auto;
-			border-radius: 1em;
-			list-style: none;
-			padding: 0;
-		}
-		#openbattles>li{
-			margin: 0;
-		}
-		#openbattles>li.battle>a, #openbattles>li.footer{
-			display: block;
-			padding: 1em;
-			color: inherit;
-			text-decoration: none;
-		}
-		#openbattles>li.battle>a:not([href]){
-			color: #999;
-		}
-		#openbattles>li.battle>a:not([href]) .in-progress{
-			font-weight: bold;
-			text-align: center;
-		}
-		#openbattles>li.battle:not(:last-child)>a, #openbattles>li.footer:not(:last-child){
-			border-bottom: 1px solid #CCC;
-		}
-		#openbattles>li.footer{
-			text-align: center;
-		}
-		#openbattles>li.footer:not(:first-child)>#nothingDoing{
-			display: none;
-		}
-		ul.inlineList{
-			display: inline;
-			list-style: none;
-			margin: 0;
-			padding: 0;
-		}
-		ul.inlineList>li{
-			display: inline;
-		}
-		ul.userList>li:first-child{
-			font-weight: bold;
-		}
-		ul.userList>li:first-child::after{
-			font-weight: normal;
-		}
-		ul.userList>li img {
-			margin: 5px;
-			border: solid 2px white;
-			padding: 2px;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/home.css" type="text/css"/>
 </head>
 <body>
 	<script id="battle-tmpl" type="text/x-jquery-tmpl">
@@ -100,10 +25,25 @@
 		<% } %>
 	</div>
 	<h1>JS Ninja Battle!</h1>
-	<h2>Join a battle</h2>
-	<ul id="openbattles">
-		<li class="footer"><span id="nothingDoing">No active battles. </span><a href="/begin">Start your own</a>!</li>
-	</ul>
+	<div id="main">
+		<div id="info">
+			<p>
+				<b>JS Ninja Battle</b> is the arena to showcase and hone your Javascript skillz through various coding challenges - compete against friends, enemies or strangers in real-time.
+			</p>
+			<p>
+				<b>Lay the smackdown</b> on some devs - create or join a game to the right!
+			</p>
+		</div>
+		<div id="battles">
+			<h2>Join a battle</h2>
+			<ul id="openbattles">
+				<li class="footer"><span id="nothingDoing">No active battles. </span><a href="/begin">Start your own</a>!</li>
+			</ul>
+		</div>
+	</div>
+	<div id="footer">
+		Created by <a href="https://twitter.com/omni5cience" target="_blank">Sam Epstein</a>, <a href="http://aidanfeldman.com" target="_blank">Aidan Feldman</a>, <a href="http://twitter.com/sidnicious" target="_blank">Sidney San Martin</a> and <a href="http://davidpadbury.com/" target="_blank">David Padbury</a> for <a href="http://nodeknockout.com/" target="_blank">Node Knockout</a> #2.
+	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>
